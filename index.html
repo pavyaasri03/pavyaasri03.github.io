@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PavyaaSri S — Python Developer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --bg: #0d0d0f;
+  --s1: #141418;
+  --s2: #1c1c22;
+  --gold: #c9a84c;
+  --gold2: #e2c272;
+  --goldbg: rgba(201,168,76,0.12);
+  --text: #e8e6e0;
+  --muted: #8a8580;
+  --dim: #4a4845;
+  --green: #4cad7a;
+  --blue: #4c8ec9;
+  --border: rgba(255,255,255,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(13,13,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav-links {
+  display: flex;
+  gap: 1.8rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ── SECTIONS ── */
+section {
+  padding: 6rem 2rem 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+section:first-of-type { padding-top: 0; }
+
+.sec-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.sec-title span { color: var(--gold); font-style: italic; }
+.sec-line {
+  width: 50px; height: 2px;
+  background: var(--gold);
+  margin-bottom: 3rem;
+}
+
+/* ── HOME ── */
+#home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.home-bg {
+  position: absolute;
+  top: 0; right: 0;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.home-eyebrow {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  animation: fadeUp 0.6s 0.1s both;
+}
+.home-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+  animation: fadeUp 0.6s 0.2s both;
+}
+.home-name-sub {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.3s both;
+}
+.home-title {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.8;
+  font-weight: 300;
+  animation: fadeUp 0.6s 0.4s both;
+}
+.home-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.5s both;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-gold { background: var(--gold); color: #0d0d0f; }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+.btn-outline:hover { background: var(--goldbg); transform: translateY(-2px); }
+.status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--green);
+  margin-top: 1.5rem;
+  animation: fadeUp 0.6s 0.6s both;
+}
+.dot {
+  width: 7px; height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+/* ── ABOUT ── */
+#about { border-top: 1px solid var(--border); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.about-text p {
+  color: var(--muted);
+  margin-bottom: 1rem;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.85;
+}
+.about-text p b { color: var(--text); font-weight: 500; }
+.award {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  background: var(--goldbg);
+  border: 1px solid rgba(201,168,76,0.25);
+  margin-top: 1.5rem;
+}
+.award-icon { font-size: 1.6rem; }
+.award-text { font-size: 0.83rem; color: var(--gold2); line-height: 1.4; }
+.fact-cards { display: flex; flex-direction: column; gap: 1rem; }
+.fact {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  padding: 1.2rem 1.4rem;
+}
+.fact-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+.fact-val {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.fact-val small { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
+
+/* ── SKILLS ── */
+#skills { border-top: 1px solid var(--border); }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.skill-box {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 1.8rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.skill-box:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-3px); }
+.skill-box-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+.skill-icon {
+  width: 34px; height: 34px;
+  background: var(--goldbg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.skill-box-name {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+  padding: 0.3rem 0.8rem;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.73rem;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.tag:hover { color: var(--gold); border-color: rgba(201,168,76,0.35); background: var(--goldbg); }
+
+/* ── PROJECTS ── */
+#projects { border-top: 1px solid var(--border); }
+.projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.project {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.project::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.project:hover::before { opacity: 1; }
+.proj-num {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.68rem;
+  color: var(--dim);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+.proj-badge {
+  display: inline-block;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.62rem;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.badge-blue { background: rgba(76,142,201,0.12); color: var(--blue); border: 1px solid rgba(76,142,201,0.25); }
+.badge-green { background: rgba(76,173,122,0.12); color: var(--green); border: 1px solid rgba(76,173,122,0.25); }
+.proj-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin-bottom: 0.7rem;
+  line-height: 1.3;
+}
+.proj-desc {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+.proj-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+.pill {
+  padding: 0.22rem 0.65rem;
+  background: var(--goldbg);
+  border: 1px solid rgba(201,168,76,0.2);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.67rem;
+  color: var(--gold);
+}
+.proj-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.proj-link {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.proj-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); background: var(--goldbg); }
+.proj-link.demo { color: var(--gold); border-color: rgba(201,168,76,0.35); }
+.proj-link.demo:hover { background: var(--goldbg); }
+.proj-num-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-weight: 600;
+  color: var(--border);
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── GITHUB ── */
+#github { border-top: 1px solid var(--border); }
+.github-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+}
+.github-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.github-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--goldbg);
+  border: 2px solid rgba(201,168,76,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+.github-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
+.github-info h3 span { color: var(--gold); }
+.github-info p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+.repos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.repo {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  padding: 1.1rem 1.2rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.repo:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.repo-name {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+.repo-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+.repo-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.68rem;
+  color: var(--dim);
+}
+.lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── CERTS ── */
+#certifications { border-top: 1px solid var(--border); }
+.cert-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  max-width: 600px;
+  transition: border-color 0.2s;
+}
+.cert-card:hover { border-color: rgba(201,168,76,0.3); }
+.cert-ico {
+  width: 50px; height: 50px;
+  background: var(--goldbg);
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.cert-name { font-size: 0.92rem; font-weight: 500; margin-bottom: 0.2rem; }
+.cert-issuer {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── RESUME ── */
+#resume { border-top: 1px solid var(--border); }
+.resume-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.resume-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.resume-info p { color: var(--muted); font-size: 0.87rem; max-width: 450px; }
+.resume-hls { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.resume-hl {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.73rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.resume-hl::before { content: '▸'; color: var(--gold); }
+.dl-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.dl-box {
+  width: 80px; height: 80px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transition: all 0.3s;
+}
+.dl-btn:hover .dl-box { background: var(--goldbg); border-color: var(--gold); transform: translateY(-3px); }
+.dl-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── CONTACT ── */
+#contact { border-top: 1px solid var(--border); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.contact-intro { font-size: 0.93rem; color: var(--muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.8rem; }
+.contact-items { display: flex; flex-direction: column; gap: 0.8rem; }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.contact-item:hover { border-color: rgba(201,168,76,0.35); transform: translateX(5px); }
+.c-ico {
+  width: 38px; height: 38px;
+  background: var(--goldbg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.c-lbl { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.15rem; }
+.c-val { font-size: 0.87rem; color: var(--text); }
+.contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
+.f-label { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; display: block; }
+.f-input, .f-textarea {
+  width: 100%;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.87rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.f-input:focus, .f-textarea:focus { border-color: rgba(201,168,76,0.45); }
+.f-textarea { min-height: 110px; resize: vertical; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--dim);
+}
+footer span { color: var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .project { grid-template-columns: 1fr; }
+  .proj-num-big { display: none; }
+  .repos-grid { grid-template-columns: 1fr; }
+  .resume-card { flex-direction: column; }
+  .github-top { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">PavyaaSri.</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#github">GitHub</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HOME ══ -->
+<section id="home" style="padding-top:80px; min-height:100vh; display:flex; flex-direction:column; justify-content:center;">
+  <div class="home-bg"></div>
+  <div class="home-eyebrow">Python Developer &nbsp;·&nbsp; Electronic City, Bangalore</div>
+  <div class="home-name">PavyaaSri S.</div>
+  <div class="home-name-sub">Software Engineer</div>
+  <p class="home-title">MCA Graduate passionate about building elegant, efficient software. Skilled in Python, Django, JavaScript, Node.js and SQL — with hands-on experience delivering real-world solutions.</p>
+  <div class="home-btns">
+    <a href="#projects" class="btn btn-gold">View My Work ↓</a>
+    <a href="#contact" class="btn btn-outline">Get In Touch</a>
+  </div>
+  <div class="status-dot">
+    <div class="dot"></div>
+    Open to opportunities · Bangalore
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="sec-label">01 — About</div>
+  <div class="sec-title">Background &amp; <span>Education</span></div>
+  <div class="sec-line"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <b>PavyaaSri S</b>, an MCA Graduate with a strong foundation in Computer Science and a passion for building software that solves real problems. I thrive at the intersection of clean code, system design, and impactful solutions.</p>
+      <p>Based in <b>Electronic City, Bangalore</b> — India's leading tech hub — I bring expertise in <b>Python, Django, JavaScript, and Node.js</b>, along with hands-on experience through internships in machine learning and web development.</p>
+      <p>I'm committed to <b>continuous learning, clean code practices</b>, and contributing positively to every engineering team I join — working effectively both independently and collaboratively with stakeholders.</p>
+      <div class="award">
+        <div class="award-icon">🏆</div>
+        <div class="award-text"><b>Best Student Award</b> — Mahindra Naandi Foundation<br>Recognized for Team Leadership Excellence</div>
+      </div>
+    </div>
+    <div class="fact-cards">
+      <div class="fact">
+        <div class="fact-label">Post Graduation</div>
+        <div class="fact-val">Master of Computer Applications (MCA)<small>Marudhar Kesari Jain College for Women, Vaniyambadi · 2023–2025</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Under Graduation</div>
+        <div class="fact-val">B.Sc. Computer Science<small>Marudhar Kesari Jain College for Women, Vaniyambadi · 2020–2023</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Current Role</div>
+        <div class="fact-val">Python Developer<small>Nimblix Technologies, Electronic City, Bangalore</small></div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Career Objective</div>
+        <div class="fact-val">Build impactful software and grow as a full-stack Python developer in a fast-paced engineering environment</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Areas of Interest</div>
+        <div class="fact-val">Python Backend · Full-Stack Web · Database Architecture · Machine Learning</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="sec-label">02 — Skills</div>
+  <div class="sec-title">Technical <span>Expertise</span></div>
+  <div class="sec-line"></div>
+  <div class="skills-grid">
+    <div class="skill-box">
+      <div class="skill-box-head">
+        <div class="skill-icon">⟨/⟩</div>
+        <div class="skill-box-name">Programming Languages</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">SQL</span>
+        <span class="tag">PHP</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-head">
+        <div class="skill-icon">⚙</div>
+        <div class="skill-box-name">Frameworks &amp; Tools</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Django</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">Express.js</span>
+        <span class="tag">Moodle</span>
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-head">
+        <div class="skill-icon">🗄</div>
+        <div class="skill-box-name">Databases</div>
+      </div>
+      <div class="tags">
+        <span class="tag">MySQL</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">DBMS</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-head">
+        <div class="skill-icon">💡</div>
+        <div class="skill-box-name">Concepts &amp; Methods</div>
+      </div>
+      <div class="tags">
+        <span class="tag">OOP</span>
+        <span class="tag">DSA</span>
+        <span class="tag">SDLC</span>
+        <span class="tag">Agile</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">Debugging</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="sec-label">03 — Projects</div>
+  <div class="sec-title">Featured <span>Work</span></div>
+  <div class="sec-line"></div>
+  <div class="projects-list">
+
+    <!-- Project 1 -->
+    <div class="project">
+      <div>
+        <div class="proj-num">01 / 03</div>
+        <span class="proj-badge badge-blue">Academic Project</span>
+        <div class="proj-name">Biometric Voting System</div>
+        <p class="proj-desc">A secure digital voting platform that eliminates fake votes by integrating fingerprint authentication with Aadhaar-based verification. Built with Node.js and MongoDB for biometric data storage — ensuring tamper-proof vote recording, real-time verification, and a reliable alternative to traditional voting methods.</p>
+        <div class="proj-pills">
+          <span class="pill">JavaScript</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">MongoDB</span>
+          <span class="pill">Biometric API</span>
+          <span class="pill">HTML/CSS</span>
+        </div>
+        <div class="proj-links">
+          <a href="biometric-voting-demo.html" class="proj-link demo">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/biometric-voting-system" class="proj-link" target="_blank">⌥ GitHub Repo</a>
+        </div>
+      </div>
+      <div class="proj-num-big">01</div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project">
+      <div>
+        <div class="proj-num">02 / 03</div>
+        <span class="proj-badge badge-blue">Academic Project</span>
+        <div class="proj-name">Learning Management System</div>
+        <p class="proj-desc">A Moodle-based LMS enabling department-wise assignment submission and digital resource sharing across the institution. Collaborated with faculty stakeholders to configure and customize the platform — currently live and actively used in production by students and staff.</p>
+        <div class="proj-pills">
+          <span class="pill">Moodle</span>
+          <span class="pill">PHP</span>
+          <span class="pill">MySQL</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML/CSS</span>
+        </div>
+        <div class="proj-links">
+          <a href="lms-demo.html" class="proj-link demo">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/learning-management-system" class="proj-link" target="_blank">⌥ GitHub Repo</a>
+        </div>
+      </div>
+      <div class="proj-num-big">02</div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project">
+      <div>
+        <div class="proj-num">03 / 03</div>
+        <span class="proj-badge badge-green">Personal Project</span>
+        <div class="proj-name">Online Complaint Registration System</div>
+        <p class="proj-desc">A web-based complaint management platform allowing citizens to register, track, and resolve complaints online. Features role-based access for users and administrators, real-time status tracking with a timeline view, and a clean responsive interface for seamless usability across devices.</p>
+        <div class="proj-pills">
+          <span class="pill">Python</span>
+          <span class="pill">Django</span>
+          <span class="pill">MySQL</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML/CSS</span>
+        </div>
+        <div class="proj-links">
+          <a href="complaint-system-demo.html" class="proj-link demo">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/online-complaint-registration" class="proj-link" target="_blank">⌥ GitHub Repo</a>
+        </div>
+      </div>
+      <div class="proj-num-big">03</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ GITHUB ══ -->
+<section id="github">
+  <div class="sec-label">04 — GitHub</div>
+  <div class="sec-title">Open Source &amp; <span>Repositories</span></div>
+  <div class="sec-line"></div>
+  <div class="github-card">
+    <div class="github-top">
+      <div class="github-avatar">👩‍💻</div>
+      <div class="github-info">
+        <h3>github.com/<span>pavyaasri03</span></h3>
+        <p>Explore my repositories and projects. I maintain clean, well-documented code as part of my development practice.</p>
+        <a href="https://github.com/pavyaasri03" target="_blank" class="btn btn-gold" style="margin-top:1rem;display:inline-flex;">Visit GitHub Profile ↗</a>
+      </div>
+    </div>
+    <div class="repos-grid">
+      <div class="repo">
+        <div class="repo-name">📁 biometric-voting-system</div>
+        <div class="repo-desc">Secure fingerprint + Aadhaar-based digital voting platform</div>
+        <div class="repo-lang"><span class="lang-dot" style="background:#f1e05a;"></span>JavaScript / Node.js</div>
+      </div>
+      <div class="repo">
+        <div class="repo-name">📁 learning-management-system</div>
+        <div class="repo-desc">Moodle-based institutional LMS — live in production</div>
+        <div class="repo-lang"><span class="lang-dot" style="background:#4F5D95;"></span>PHP / MySQL</div>
+      </div>
+      <div class="repo">
+        <div class="repo-name">📁 online-complaint-registration</div>
+        <div class="repo-desc">Web-based complaint tracking &amp; management system</div>
+        <div class="repo-lang"><span class="lang-dot" style="background:#3572A5;"></span>Python / Django</div>
+      </div>
+      <div class="repo">
+        <div class="repo-name">📁 python-practice</div>
+        <div class="repo-desc">DSA &amp; Python problem-solving practice repository</div>
+        <div class="repo-lang"><span class="lang-dot" style="background:#3572A5;"></span>Python</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CERTIFICATIONS ══ -->
+<section id="certifications">
+  <div class="sec-label">05 — Certifications</div>
+  <div class="sec-title">Courses &amp; <span>Achievements</span></div>
+  <div class="sec-line"></div>
+  <div style="display:flex; flex-direction:column; gap:1rem;">
+    <div class="cert-card">
+      <div class="cert-ico">🎓</div>
+      <div>
+        <div class="cert-name">Database Management Systems (DBMS)</div>
+        <div class="cert-issuer">NPTEL &nbsp;·&nbsp; IIT Faculty &nbsp;·&nbsp; Ministry of Education, Government of India</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-ico">🤖</div>
+      <div>
+        <div class="cert-name">Machine Learning — Industry Internship</div>
+        <div class="cert-issuer">30-Day Industry Training Program &nbsp;·&nbsp; Python, Data Preprocessing, ML Algorithms</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-ico">🌐</div>
+      <div>
+        <div class="cert-name">Web Development — Industry Internship</div>
+        <div class="cert-issuer">15-Day Industry Training Program &nbsp;·&nbsp; HTML5, CSS3, JavaScript, Responsive Design</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RESUME ══ -->
+<section id="resume">
+  <div class="sec-label">06 — Resume</div>
+  <div class="sec-title">Download <span>Resume</span></div>
+  <div class="sec-line"></div>
+  <div class="resume-card">
+    <div class="resume-info">
+      <h3>PavyaaSri S — Resume</h3>
+      <p>Complete overview of my education, skills, projects, internships, and achievements — ATS-optimized and ready for review.</p>
+      <div class="resume-hls">
+        <div class="resume-hl">MCA Graduate · Marudhar Kesari Jain College for Women</div>
+        <div class="resume-hl">Python · Django · JavaScript · Node.js · MySQL · MongoDB</div>
+        <div class="resume-hl">3 Projects · 2 Internships · NPTEL DBMS Certification</div>
+        <div class="resume-hl">Best Student Award · Mahindra Naandi Foundation</div>
+      </div>
+    </div>
+    <a href="PavyaaSri_SD.pdf" download class="dl-btn">
+      <div class="dl-box">⬇</div>
+      <div class="dl-label">Download PDF</div>
+    </a>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="sec-label">07 — Contact</div>
+  <div class="sec-title">Get In <span>Touch</span></div>
+  <div class="sec-line"></div>
+  <div class="contact-grid">
+    <div>
+      <p class="contact-intro">I'm always open to discussing new opportunities, collaborations, or projects. Feel free to reach out — I'd love to connect!</p>
+      <div class="contact-items">
+        <a href="mailto:pavyaasris@gmail.com" class="contact-item">
+          <div class="c-ico">✉</div>
+          <div><div class="c-lbl">Email</div><div class="c-val">pavyaasris@gmail.com</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/pavyaa-sri-s-5024b23a7" target="_blank" class="contact-item">
+          <div class="c-ico">in</div>
+          <div><div class="c-lbl">LinkedIn</div><div class="c-val">linkedin.com/in/pavyaa-sri-s</div></div>
+        </a>
+        <a href="https://github.com/pavyaasri03" target="_blank" class="contact-item">
+          <div class="c-ico">🐙</div>
+          <div><div class="c-lbl">GitHub</div><div class="c-val">github.com/pavyaasri03</div></div>
+        </a>
+        <a href="tel:+919150766362" class="contact-item">
+          <div class="c-ico">📞</div>
+          <div><div class="c-lbl">Phone</div><div class="c-val">+91 9150766362</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div>
+        <label class="f-label">Your Name</label>
+        <input type="text" class="f-input" placeholder="John Doe">
+      </div>
+      <div>
+        <label class="f-label">Email Address</label>
+        <input type="email" class="f-input" placeholder="hello@email.com">
+      </div>
+      <div>
+        <label class="f-label">Message</label>
+        <textarea class="f-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
+      </div>
+      <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="alert('Form submitted! I will get back to you soon.')">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>PavyaaSri S</span> &nbsp;·&nbsp; Python Developer, Bangalore &nbsp;·&nbsp; Built with <span>♥</span> &nbsp;·&nbsp; Hosted on <span>GitHub Pages</span></p>
+</footer>
+
+<script>
+// Active nav highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+  });
+});
+</script>
+
+</body>
+</html>
