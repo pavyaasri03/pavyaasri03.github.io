@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learning Management System — Live Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0c;--s1:#111115;--s2:#18181f;--s3:#1f1f28;--gold:#c9a84c;--gold-l:#e2c272;--gold-d:rgba(201,168,76,0.15);--text:#e8e6e0;--muted:#8a8580;--dim:#5a5750;--green:#4cad7a;--red:#c94c4c;--blue:#4c8ec9;--purple:#9b59b6;--border:rgba(255,255,255,0.07);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+/* TOPBAR */
+.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:0.9rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.topbar-brand{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);}
+.topbar-right{display:flex;align-items:center;gap:1.5rem;}
+.topbar-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:rgba(76,173,122,0.15);color:var(--green);border:1px solid rgba(76,173,122,0.3);padding:0.3rem 0.8rem;letter-spacing:0.1em;}
+.back-btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;}
+.back-btn:hover{color:var(--gold);}
+/* ROLE TOGGLE */
+.role-toggle{display:flex;gap:0.3rem;background:var(--s2);padding:0.3rem;border:1px solid var(--border);}
+.role-btn{padding:0.4rem 1rem;font-size:0.75rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all 0.2s;letter-spacing:0.05em;}
+.role-btn.active{background:var(--gold);color:var(--bg);}
+/* LAYOUT */
+.app{display:flex;flex:1;overflow:hidden;}
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar-user{padding:1.5rem;border-bottom:1px solid var(--border);}
+.user-avatar{width:48px;height:48px;border-radius:50%;background:var(--gold-d);border:2px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:0.8rem;}
+.user-name{font-size:0.9rem;font-weight:500;}
+.user-role{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;}
+.sidebar-nav{padding:1rem 0;flex:1;}
+.nav-item{display:flex;align-items:center;gap:0.8rem;padding:0.75rem 1.5rem;font-size:0.85rem;color:var(--muted);cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;}
+.nav-item:hover{color:var(--text);background:var(--s2);}
+.nav-item.active{color:var(--gold);background:var(--gold-d);border-left-color:var(--gold);}
+.nav-icon{width:18px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:0.6rem;padding:0.1rem 0.45rem;border-radius:10px;font-family:'JetBrains Mono',monospace;}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:2rem;}
+/* PANELS */
+.panel{display:none;animation:fadeUp 0.4s ease;}
+.panel.active{display:block;}
+/* DASHBOARD STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.stat-card{background:var(--s1);border:1px solid var(--border);padding:1.3rem;position:relative;overflow:hidden;transition:transform 0.2s, border-color 0.3s;}
+.stat-card:hover{transform:translateY(-2px);border-color:rgba(201,168,76,0.3);}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-card:nth-child(1)::after{background:var(--gold);}
+.stat-card:nth-child(2)::after{background:var(--blue);}
+.stat-card:nth-child(3)::after{background:var(--green);}
+.stat-card:nth-child(4)::after{background:var(--purple);}
+.stat-icon{font-size:1.8rem;margin-bottom:0.5rem;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;line-height:1;}
+.stat-label{font-size:0.78rem;color:var(--muted);margin-top:0.3rem;}
+/* COURSES */
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.section-head h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;}
+.section-head h3 em{font-style:italic;color:var(--gold);}
+.courses-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-bottom:2rem;}
+.course-card{background:var(--s1);border:1px solid var(--border);padding:1.5rem;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.course-card:hover{border-color:rgba(201,168,76,0.3);transform:translateY(-3px);}
+.course-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.cc1::before{background:var(--gold);}
+.cc2::before{background:var(--blue);}
+.cc3::before{background:var(--green);}
+.cc4::before{background:var(--purple);}
+.course-icon{font-size:2rem;margin-bottom:0.8rem;}
+.course-name{font-size:0.97rem;font-weight:500;margin-bottom:0.3rem;}
+.course-dept{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:1rem;letter-spacing:0.08em;}
+.progress-wrap{margin-top:0.8rem;}
+.progress-label{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-bottom:0.4rem;}
+.progress-bar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+/* ASSIGNMENTS */
+.assignment-list{display:flex;flex-direction:column;gap:0.8rem;}
+.assignment-item{background:var(--s1);border:1px solid var(--border);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.2rem;transition:border-color 0.2s;}
+.assignment-item:hover{border-color:rgba(201,168,76,0.2);}
+.asgn-icon{width:42px;height:42px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.asgn-info{flex:1;}
+.asgn-name{font-size:0.9rem;font-weight:500;margin-bottom:0.2rem;}
+.asgn-course{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);}
+.asgn-due{font-size:0.78rem;margin-left:auto;text-align:right;}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;padding:0.2rem 0.6rem;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;}
+.badge-pending{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.25);}
+.badge-submitted{background:rgba(76,173,122,0.12);color:var(--green);border:1px solid rgba(76,173,122,0.25);}
+.badge-overdue{background:rgba(201,76,76,0.12);color:var(--red);border:1px solid rgba(201,76,76,0.25);}
+/* SUBMIT FORM */
+.submit-form{background:var(--s1);border:1px solid var(--border);padding:2rem;margin-top:1.5rem;}
+.submit-form h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:1.2rem;}
+.form-row{margin-bottom:1rem;}
+.form-row label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+.form-row input,.form-row textarea,.form-row select{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.87rem;padding:0.75rem 1rem;outline:none;transition:border-color 0.3s;}
+.form-row input:focus,.form-row textarea:focus{border-color:rgba(201,168,76,0.4);}
+.form-row textarea{min-height:100px;resize:vertical;}
+.upload-zone{border:2px dashed var(--border);padding:2rem;text-align:center;cursor:pointer;transition:all 0.3s;font-size:0.85rem;color:var(--muted);}
+.upload-zone:hover{border-color:rgba(201,168,76,0.4);color:var(--gold);}
+/* ANNOUNCEMENTS */
+.announce-list{display:flex;flex-direction:column;gap:0.8rem;}
+.announce-item{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.2rem 1.5rem;}
+.announce-title{font-size:0.92rem;font-weight:500;margin-bottom:0.4rem;}
+.announce-meta{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);}
+.announce-body{font-size:0.83rem;color:var(--muted);margin-top:0.5rem;line-height:1.6;}
+/* TEACHER PANEL */
+.student-table{width:100%;border-collapse:collapse;}
+.student-table th{background:var(--s2);font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;padding:0.8rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+.student-table td{padding:0.9rem 1rem;font-size:0.85rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+.student-table tr:hover td{background:var(--s2);}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;font-size:0.8rem;font-weight:500;letter-spacing:0.06em;border:none;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.btn-gold{background:var(--gold);color:var(--bg);}
+.btn-gold:hover{background:var(--gold-l);}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);}
+.btn-outline:hover{background:var(--gold-d);}
+.btn-sm{padding:0.4rem 0.9rem;font-size:0.75rem;}
+/* NOTIFICATION */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--s1);border:1px solid rgba(76,173,122,0.4);padding:1rem 1.5rem;font-size:0.85rem;color:var(--green);display:none;animation:fadeUp 0.3s ease;z-index:999;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.stats-grid{grid-template-columns:repeat(2,1fr);}.courses-grid{grid-template-columns:1fr;}.sidebar{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">📚 EduPortal LMS</div>
+  <div class="topbar-right">
+    <div class="role-toggle">
+      <button class="role-btn active" onclick="setRole('student',this)">👩‍🎓 Student</button>
+      <button class="role-btn" onclick="setRole('teacher',this)">👩‍🏫 Teacher</button>
+      <button class="role-btn" onclick="setRole('admin',this)">🔧 Admin</button>
+    </div>
+    <div class="topbar-badge">● LIVE DEMO</div>
+    <a href="index.html" class="back-btn">← Portfolio</a>
+  </div>
+</div>
+
+<div class="app">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-user" id="sidebarUser">
+      <div class="user-avatar" id="userAvatar">👩‍🎓</div>
+      <div class="user-name" id="userName">PavyaaSri S.</div>
+      <div class="user-role" id="userRoleLabel">Student · MCA Dept.</div>
+    </div>
+    <div class="sidebar-nav" id="sidebarNav">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STUDENT PANELS -->
+    <div class="panel active" id="p-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-num">6</div><div class="stat-label">Enrolled Courses</div></div>
+        <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-num">3</div><div class="stat-label">Pending Assignments</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num">18</div><div class="stat-label">Completed Tasks</div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-num">87%</div><div class="stat-label">Avg. Score</div></div>
+      </div>
+      <div class="section-head"><h3>My <em>Courses</em></h3><button class="btn btn-outline btn-sm" onclick="showPanel('p-courses')">View All</button></div>
+      <div class="courses-grid">
+        <div class="course-card cc1" onclick="showPanel('p-courses')">
+          <div class="course-icon">🐍</div>
+          <div class="course-name">Advanced Python Programming</div>
+          <div class="course-dept">MCA · Dr. Ramesh Kumar</div>
+          <div class="progress-wrap"><div class="progress-label"><span>Progress</span><span>72%</span></div><div class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--gold);"></div></div></div>
+        </div>
+        <div class="course-card cc2" onclick="showPanel('p-courses')">
+          <div class="course-icon">🌐</div>
+          <div class="course-name">Full Stack Web Development</div>
+          <div class="course-dept">MCA · Ms. Priya Nair</div>
+          <div class="progress-wrap"><div class="progress-label"><span>Progress</span><span>58%</span></div><div class="progress-bar"><div class="progress-fill" style="width:58%;background:var(--blue);"></div></div></div>
+        </div>
+        <div class="course-card cc3" onclick="showPanel('p-courses')">
+          <div class="course-icon">🗄️</div>
+          <div class="course-name">Database Management Systems</div>
+          <div class="course-dept">MCA · Dr. Anil Shah</div>
+          <div class="progress-wrap"><div class="progress-label"><span>Progress</span><span>91%</span></div><div class="progress-bar"><div class="progress-fill" style="width:91%;background:var(--green);"></div></div></div>
+        </div>
+        <div class="course-card cc4" onclick="showPanel('p-courses')">
+          <div class="course-icon">🤖</div>
+          <div class="course-name">Machine Learning Fundamentals</div>
+          <div class="course-dept">MCA · Dr. Sita Rao</div>
+          <div class="progress-wrap"><div class="progress-label"><span>Progress</span><span>44%</span></div><div class="progress-bar"><div class="progress-fill" style="width:44%;background:var(--purple);"></div></div></div>
+        </div>
+      </div>
+      <div class="section-head"><h3>Recent <em>Announcements</em></h3></div>
+      <div class="announce-list">
+        <div class="announce-item"><div class="announce-title">Mid-term Examination Schedule Released 📅</div><div class="announce-meta">Dr. Ramesh Kumar · Python Programming · 2 hours ago</div><div class="announce-body">Mid-term exams will be held from March 18–22. Please check the timetable uploaded in the course resources section.</div></div>
+        <div class="announce-item" style="border-left-color:var(--blue)"><div class="announce-title">Assignment 3 Deadline Extended ⏰</div><div class="announce-meta">Ms. Priya Nair · Full Stack Web Dev · Yesterday</div><div class="announce-body">Due to technical issues, the deadline for Assignment 3 has been extended to March 15, 2026.</div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p-courses">
+      <div class="section-head"><h3>My <em>Courses</em></h3></div>
+      <div class="courses-grid">
+        <div class="course-card cc1"><div class="course-icon">🐍</div><div class="course-name">Advanced Python Programming</div><div class="course-dept">MCA · Dr. Ramesh Kumar · 24 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>72% Complete</span><span>17/24 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--gold);"></div></div></div></div>
+        <div class="course-card cc2"><div class="course-icon">🌐</div><div class="course-name">Full Stack Web Development</div><div class="course-dept">MCA · Ms. Priya Nair · 30 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>58% Complete</span><span>17/30 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:58%;background:var(--blue);"></div></div></div></div>
+        <div class="course-card cc3"><div class="course-icon">🗄️</div><div class="course-name">Database Management Systems</div><div class="course-dept">MCA · Dr. Anil Shah · 20 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>91% Complete</span><span>18/20 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:91%;background:var(--green);"></div></div></div></div>
+        <div class="course-card cc4"><div class="course-icon">🤖</div><div class="course-name">Machine Learning Fundamentals</div><div class="course-dept">MCA · Dr. Sita Rao · 28 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>44% Complete</span><span>12/28 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:44%;background:var(--purple);"></div></div></div></div>
+        <div class="course-card cc1"><div class="course-icon">🔒</div><div class="course-name">Cyber Security Essentials</div><div class="course-dept">MCA · Mr. Kiran Rao · 18 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>30% Complete</span><span>5/18 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:30%;background:var(--gold);"></div></div></div></div>
+        <div class="course-card cc2"><div class="course-icon">📱</div><div class="course-name">Mobile App Development</div><div class="course-dept">MCA · Ms. Deepa S. · 22 Lectures</div><div class="progress-wrap"><div class="progress-label"><span>15% Complete</span><span>3/22 lectures</span></div><div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--blue);"></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p-assignments">
+      <div class="section-head"><h3>Assignments &amp; <em>Submissions</em></h3></div>
+      <div class="assignment-list">
+        <div class="assignment-item"><div class="asgn-icon" style="background:rgba(201,76,76,0.12);color:var(--red);">📄</div><div class="asgn-info"><div class="asgn-name">Python Data Structures — Lab Report</div><div class="asgn-course">Advanced Python Programming</div></div><div class="asgn-due"><span class="badge badge-overdue">Overdue</span><div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Due: Mar 5</div></div></div>
+        <div class="assignment-item"><div class="asgn-icon" style="background:rgba(201,168,76,0.12);color:var(--gold);">📝</div><div class="asgn-info"><div class="asgn-name">REST API Design — Assignment 3</div><div class="asgn-course">Full Stack Web Development</div></div><div class="asgn-due"><span class="badge badge-pending">Pending</span><div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Due: Mar 15</div></div><button class="btn btn-gold btn-sm" style="margin-left:1rem;" onclick="openSubmitForm()">Submit</button></div>
+        <div class="assignment-item"><div class="asgn-icon" style="background:rgba(201,168,76,0.12);color:var(--gold);">📊</div><div class="asgn-info"><div class="asgn-name">SQL Query Optimization — Case Study</div><div class="asgn-course">Database Management Systems</div></div><div class="asgn-due"><span class="badge badge-pending">Pending</span><div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Due: Mar 18</div></div><button class="btn btn-gold btn-sm" style="margin-left:1rem;" onclick="openSubmitForm()">Submit</button></div>
+        <div class="assignment-item"><div class="asgn-icon" style="background:rgba(76,173,122,0.12);color:var(--green);">✅</div><div class="asgn-info"><div class="asgn-name">Linear Regression Implementation</div><div class="asgn-course">Machine Learning Fundamentals</div></div><div class="asgn-due"><span class="badge badge-submitted">Submitted</span><div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Score: 92/100</div></div></div>
+        <div class="assignment-item"><div class="asgn-icon" style="background:rgba(76,173,122,0.12);color:var(--green);">✅</div><div class="asgn-info"><div class="asgn-name">DBMS ER Diagram — Project</div><div class="asgn-course">Database Management Systems</div></div><div class="asgn-due"><span class="badge badge-submitted">Submitted</span><div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Score: 88/100</div></div></div>
+      </div>
+      <div class="submit-form" id="submitForm" style="display:none;">
+        <h4>📤 Submit Assignment</h4>
+        <div class="form-row"><label>Assignment Title</label><input type="text" value="REST API Design — Assignment 3" readonly></div>
+        <div class="form-row"><label>Your Notes / Comments</label><textarea placeholder="Add any notes for your professor..."></textarea></div>
+        <div class="form-row"><label>Upload File</label><div class="upload-zone" onclick="simulateUpload()">📁 Click to upload or drag & drop your file here<br><small style="color:var(--dim);margin-top:0.5rem;display:block;">PDF, DOCX, ZIP — max 10MB</small></div></div>
+        <div style="display:flex;gap:1rem;margin-top:1rem;">
+          <button class="btn btn-gold" onclick="submitAssignment()">📤 Submit Assignment</button>
+          <button class="btn btn-outline" onclick="document.getElementById('submitForm').style.display='none'">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHER PANEL -->
+    <div class="panel" id="p-teacher">
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat-card"><div class="stat-icon">👩‍🎓</div><div class="stat-num">142</div><div class="stat-label">Total Students</div></div>
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num">4</div><div class="stat-label">Active Courses</div></div>
+        <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-num">28</div><div class="stat-label">Pending Reviews</div></div>
+      </div>
+      <div class="section-head"><h3>Student <em>Submissions</em></h3><button class="btn btn-gold btn-sm">+ New Assignment</button></div>
+      <table class="student-table">
+        <thead><tr><th>Student</th><th>Assignment</th><th>Course</th><th>Submitted</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Anjali R.</strong></td><td>Python Lab Report</td><td>Advanced Python</td><td>Mar 8, 11:24 AM</td><td><span class="badge badge-pending">Pending Review</span></td><td><button class="btn btn-outline btn-sm" onclick="showGradeToast()">Grade</button></td></tr>
+          <tr><td><strong>Deepa S.</strong></td><td>REST API Design</td><td>Full Stack Web</td><td>Mar 9, 4:10 PM</td><td><span class="badge badge-pending">Pending Review</span></td><td><button class="btn btn-outline btn-sm" onclick="showGradeToast()">Grade</button></td></tr>
+          <tr><td><strong>PavyaaSri S.</strong></td><td>Linear Regression</td><td>Machine Learning</td><td>Mar 7, 9:45 AM</td><td><span class="badge badge-submitted">Graded — 92/100</span></td><td><button class="btn btn-outline btn-sm" onclick="showGradeToast()">Edit</button></td></tr>
+          <tr><td><strong>Meena K.</strong></td><td>SQL Case Study</td><td>DBMS</td><td>Mar 10, 2:30 PM</td><td><span class="badge badge-pending">Pending Review</span></td><td><button class="btn btn-outline btn-sm" onclick="showGradeToast()">Grade</button></td></tr>
+          <tr><td><strong>Riya M.</strong></td><td>Python Lab Report</td><td>Advanced Python</td><td>—</td><td><span class="badge badge-overdue">Not Submitted</span></td><td><button class="btn btn-outline btn-sm" onclick="showGradeToast()">Remind</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="panel" id="p-admin">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">🏫</div><div class="stat-num">8</div><div class="stat-label">Departments</div></div>
+        <div class="stat-card"><div class="stat-icon">👩‍🏫</div><div class="stat-num">47</div><div class="stat-label">Faculty</div></div>
+        <div class="stat-card"><div class="stat-icon">👩‍🎓</div><div class="stat-num">1,248</div><div class="stat-label">Students</div></div>
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num">62</div><div class="stat-label">Active Courses</div></div>
+      </div>
+      <div class="section-head"><h3>Department <em>Overview</em></h3></div>
+      <table class="student-table">
+        <thead><tr><th>Department</th><th>Students</th><th>Courses</th><th>Faculty</th><th>Avg Completion</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MCA</strong></td><td>142</td><td>12</td><td>8</td><td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="progress-bar" style="width:80px;"><div class="progress-fill" style="width:73%;background:var(--gold);height:5px;border-radius:3px;"></div></div>73%</div></td><td><span class="badge badge-submitted">Active</span></td></tr>
+          <tr><td><strong>B.Sc CS</strong></td><td>318</td><td>18</td><td>12</td><td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="progress-bar" style="width:80px;"><div class="progress-fill" style="width:81%;background:var(--green);height:5px;border-radius:3px;"></div></div>81%</div></td><td><span class="badge badge-submitted">Active</span></td></tr>
+          <tr><td><strong>BCA</strong></td><td>264</td><td>14</td><td>9</td><td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="progress-bar" style="width:80px;"><div class="progress-fill" style="width:65%;background:var(--blue);height:5px;border-radius:3px;"></div></div>65%</div></td><td><span class="badge badge-submitted">Active</span></td></tr>
+          <tr><td><strong>MBA</strong></td><td>189</td><td>10</td><td>7</td><td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="progress-bar" style="width:80px;"><div class="progress-fill" style="width:88%;background:var(--purple);height:5px;border-radius:3px;"></div></div>88%</div></td><td><span class="badge badge-submitted">Active</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const navconfigs = {
+  student:[
+    {icon:'🏠',label:'Dashboard',panel:'p-dashboard'},
+    {icon:'📖',label:'My Courses',panel:'p-courses'},
+    {icon:'📝',label:'Assignments',panel:'p-assignments',badge:'3'},
+    {icon:'📢',label:'Announcements',panel:'p-dashboard'},
+  ],
+  teacher:[
+    {icon:'📊',label:'Overview',panel:'p-teacher'},
+    {icon:'📝',label:'Submissions',panel:'p-teacher'},
+    {icon:'📖',label:'My Courses',panel:'p-teacher'},
+  ],
+  admin:[
+    {icon:'📊',label:'Dashboard',panel:'p-admin'},
+    {icon:'🏫',label:'Departments',panel:'p-admin'},
+    {icon:'👩‍🎓',label:'Students',panel:'p-admin'},
+    {icon:'👩‍🏫',label:'Faculty',panel:'p-admin'},
+  ]
+};
+
+const roleUsers = {
+  student:{avatar:'👩‍🎓',name:'PavyaaSri S.',role:'Student · MCA Dept.'},
+  teacher:{avatar:'👩‍🏫',name:'Dr. Ramesh Kumar',role:'Faculty · MCA Dept.'},
+  admin:{avatar:'🔧',name:'Admin Office',role:'System Administrator'},
+};
+
+function setRole(role, btn){
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const u = roleUsers[role];
+  document.getElementById('userAvatar').textContent=u.avatar;
+  document.getElementById('userName').textContent=u.name;
+  document.getElementById('userRoleLabel').textContent=u.role;
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = navConfigs(role);
+  if(role==='student') showPanel('p-dashboard');
+  else if(role==='teacher') showPanel('p-teacher');
+  else showPanel('p-admin');
+  nav.querySelectorAll('.nav-item')[0].classList.add('active');
+}
+
+function navConfigs(role){
+  return navConfigs2(navConfigs3(role));
+}
+function navConfigs3(role){
+  return navConfigs[role] || [];
+}
+function navConfigs2(items){
+  return items.map(i=>`<div class="nav-item" onclick="showPanel('${i.panel}');setActive(this)"><span class="nav-icon">${i.icon}</span>${i.label}${i.badge?`<span class="nav-badge">${i.badge}</span>`:''}</div>`).join('');
+}
+
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+function openSubmitForm(){
+  document.getElementById('submitForm').style.display='block';
+  document.getElementById('submitForm').scrollIntoView({behavior:'smooth'});
+  showPanel('p-assignments');
+}
+function simulateUpload(){
+  showToast('📁 File selected: Assignment3_REST_API.pdf');
+}
+function submitAssignment(){
+  document.getElementById('submitForm').style.display='none';
+  showToast('✅ Assignment submitted successfully! Your professor will review it soon.');
+}
+function showGradeToast(){
+  showToast('📊 Grade panel opened — enter marks and feedback.');
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',3000);
+}
+
+// init
+setRole('student',document.querySelector('.role-btn.active'));
+document.getElementById('sidebarNav').querySelectorAll('.nav-item')[0].classList.add('active');
+</script>
+</body>
+</html>

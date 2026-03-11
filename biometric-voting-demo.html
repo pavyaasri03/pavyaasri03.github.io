@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Biometric Voting System — Live Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0c;--s1:#111115;--s2:#18181f;--s3:#1f1f28;--gold:#c9a84c;--gold-l:#e2c272;--gold-d:rgba(201,168,76,0.15);--text:#e8e6e0;--muted:#8a8580;--dim:#5a5750;--green:#4cad7a;--red:#c94c4c;--blue:#4c8ec9;--border:rgba(255,255,255,0.07);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* TOP BAR */
+.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:0.9rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.topbar-brand{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);}
+.topbar-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:rgba(76,173,122,0.15);color:var(--green);border:1px solid rgba(76,173,122,0.3);padding:0.3rem 0.8rem;letter-spacing:0.1em;}
+.back-btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;}
+.back-btn:hover{color:var(--gold);}
+
+/* STEPS */
+.steps{display:flex;justify-content:center;gap:0;padding:1.5rem 2rem;background:var(--s1);border-bottom:1px solid var(--border);}
+.step{display:flex;align-items:center;gap:0.5rem;}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.72rem;border:1px solid var(--dim);color:var(--dim);transition:all 0.4s;}
+.step-label{font-size:0.78rem;color:var(--dim);letter-spacing:0.05em;transition:color 0.4s;}
+.step.active .step-num{background:var(--gold);border-color:var(--gold);color:var(--bg);}
+.step.active .step-label{color:var(--gold);}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:var(--bg);}
+.step.done .step-label{color:var(--green);}
+.step-line{width:60px;height:1px;background:var(--border);margin:0 0.5rem;}
+
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:3rem 2rem;}
+
+/* SCREEN PANELS */
+.screen{display:none;animation:fadeUp 0.5s ease forwards;}
+.screen.active{display:block;}
+
+/* SCREEN 1 - WELCOME */
+.welcome-card{background:var(--s1);border:1px solid var(--border);padding:3rem;text-align:center;}
+.welcome-card h2{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:0.5rem;}
+.welcome-card h2 em{font-style:italic;color:var(--gold);}
+.welcome-card p{color:var(--muted);margin:1rem auto;max-width:500px;line-height:1.8;}
+.voter-id-wrap{display:flex;gap:1rem;max-width:400px;margin:2rem auto;}
+.voter-id-wrap input{flex:1;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.9rem;padding:0.8rem 1rem;outline:none;transition:border-color 0.3s;}
+.voter-id-wrap input:focus{border-color:rgba(201,168,76,0.5);}
+.flag-row{display:flex;justify-content:center;gap:2rem;margin:2rem 0;}
+.flag-box{display:flex;flex-direction:column;align-items:center;gap:0.5rem;}
+.flag{width:48px;height:32px;border-radius:3px;}
+.flag-name{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);}
+
+/* FINGERPRINT */
+.fp-container{text-align:center;padding:2rem;}
+.fp-ring{width:180px;height:180px;border-radius:50%;border:2px solid var(--border);margin:0 auto 2rem;display:flex;align-items:center;justify-content:center;position:relative;transition:border-color 0.5s;}
+.fp-ring.scanning{border-color:var(--gold);animation:spin-ring 2s linear infinite;}
+.fp-ring.success{border-color:var(--green);}
+.fp-ring.fail{border-color:var(--red);}
+.fp-ring::before{content:'';position:absolute;inset:10px;border-radius:50%;border:1px solid rgba(201,168,76,0.2);}
+.fp-icon{font-size:5rem;transition:all 0.5s;}
+.fp-label{font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.scan-bar{width:180px;height:3px;background:var(--border);margin:1rem auto;border-radius:2px;overflow:hidden;}
+.scan-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width 2s ease;}
+.voter-info{background:var(--s2);border:1px solid rgba(76,173,122,0.3);padding:1.5rem;max-width:380px;margin:1.5rem auto;display:none;}
+.voter-info.show{display:block;}
+.vi-row{display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.85rem;}
+.vi-key{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
+.vi-val{color:var(--text);font-weight:500;}
+
+/* CANDIDATES */
+.candidates-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin:2rem 0;}
+.candidate-card{background:var(--s1);border:2px solid var(--border);padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.candidate-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity 0.3s;}
+.candidate-card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-4px);}
+.candidate-card:hover::before{opacity:1;}
+.candidate-card.selected{border-color:var(--gold);background:var(--s2);}
+.candidate-card.selected::before{opacity:1;}
+.candidate-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;border:2px solid var(--border);}
+.c1 .candidate-avatar{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);}
+.c2 .candidate-avatar{background:rgba(76,142,201,0.1);border-color:rgba(76,142,201,0.3);}
+.c3 .candidate-avatar{background:rgba(76,173,122,0.1);border-color:rgba(76,173,122,0.3);}
+.c4 .candidate-avatar{background:rgba(201,76,76,0.1);border-color:rgba(201,76,76,0.3);}
+.candidate-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:0.3rem;}
+.candidate-party{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;}
+.candidate-symbol{font-size:1.8rem;}
+.selected-check{position:absolute;top:1rem;right:1rem;width:24px;height:24px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:var(--bg);opacity:0;transition:opacity 0.3s;}
+.candidate-card.selected .selected-check{opacity:1;}
+
+/* CONFIRM */
+.confirm-box{background:var(--s1);border:1px solid var(--border);padding:2.5rem;max-width:480px;margin:0 auto;text-align:center;}
+.confirm-avatar{width:100px;height:100px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.confirm-name{font-family:'Cormorant Garamond',serif;font-size:2rem;margin-bottom:0.3rem;}
+.confirm-party{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;margin-bottom:2rem;}
+.warning-box{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:1rem;font-size:0.83rem;color:var(--muted);margin-bottom:2rem;line-height:1.6;}
+.confirm-btns{display:flex;gap:1rem;justify-content:center;}
+
+/* RESULTS */
+.results-header{text-align:center;margin-bottom:2.5rem;}
+.results-header h2{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;}
+.results-header h2 em{font-style:italic;color:var(--gold);}
+.results-header p{color:var(--muted);margin-top:0.5rem;}
+.result-bars{display:flex;flex-direction:column;gap:1.2rem;}
+.result-row{background:var(--s1);border:1px solid var(--border);padding:1.5rem;}
+.result-row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;}
+.result-cname{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
+.result-cparty{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);}
+.result-votes{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--gold);}
+.result-bar-bg{height:8px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.result-bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1.5s cubic-bezier(0.4,0,0.2,1);}
+.winner-tag{display:inline-flex;align-items:center;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--green);background:rgba(76,173,122,0.1);border:1px solid rgba(76,173,122,0.3);padding:0.2rem 0.6rem;margin-left:0.8rem;}
+.vote-success-anim{text-align:center;padding:2rem 0;}
+.success-icon{font-size:5rem;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;}
+.stat-box{background:var(--s1);border:1px solid var(--border);padding:1.2rem;text-align:center;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.3rem;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.8rem;font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;font-family:'DM Sans',sans-serif;}
+.btn-gold{background:var(--gold);color:var(--bg);}
+.btn-gold:hover{background:var(--gold-l);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+.btn-outline:hover{background:var(--gold-d);}
+.btn-red{background:rgba(201,76,76,0.15);color:var(--red);border:1px solid rgba(201,76,76,0.3);}
+.btn-red:hover{background:rgba(201,76,76,0.25);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+/* SECTION TITLE */
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:0.5rem;}
+.sec-title em{font-style:italic;color:var(--gold);}
+.sec-sub{color:var(--muted);font-size:0.87rem;line-height:1.7;margin-bottom:2rem;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin-ring{from{box-shadow:0 0 0 2px rgba(201,168,76,0.1)}to{box-shadow:0 0 20px 4px rgba(201,168,76,0.3)}}
+@keyframes popIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">🗳️ SecureVote — Biometric Voting System</div>
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <div class="topbar-badge">● LIVE DEMO</div>
+    <a href="index.html" class="back-btn">← Back to Portfolio</a>
+  </div>
+</div>
+
+<div class="steps">
+  <div class="step active" id="step1"><div class="step-num">1</div><div class="step-label">Welcome</div></div>
+  <div class="step-line"></div>
+  <div class="step" id="step2"><div class="step-num">2</div><div class="step-label">Biometric Auth</div></div>
+  <div class="step-line"></div>
+  <div class="step" id="step3"><div class="step-num">3</div><div class="step-label">Cast Vote</div></div>
+  <div class="step-line"></div>
+  <div class="step" id="step4"><div class="step-num">4</div><div class="step-label">Confirm</div></div>
+  <div class="step-line"></div>
+  <div class="step" id="step5"><div class="step-num">5</div><div class="step-label">Results</div></div>
+</div>
+
+<div class="main">
+
+  <!-- SCREEN 1: WELCOME -->
+  <div class="screen active" id="sc1">
+    <div class="welcome-card">
+      <div style="font-size:3rem;margin-bottom:1rem;">🗳️</div>
+      <h2>Biometric <em>Voting System</em></h2>
+      <p>A secure, tamper-proof digital voting platform that uses fingerprint + Aadhaar verification to ensure one person, one vote — eliminating identity fraud completely.</p>
+      <div class="flag-row">
+        <div class="flag-box"><div class="flag" style="background:linear-gradient(180deg,#FF9933 33%,#fff 33%,#fff 66%,#138808 66%);"></div><div class="flag-name">General Election</div></div>
+      </div>
+      <div class="voter-id-wrap">
+        <input type="text" id="voterIdInput" placeholder="Enter Voter ID (e.g. MH1234567)" maxlength="12"/>
+        <button class="btn btn-gold" onclick="startAuth()">Proceed →</button>
+      </div>
+      <p style="font-size:0.78rem;color:var(--dim);margin-top:1rem;">Demo: Enter any Voter ID to continue</p>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: BIOMETRIC -->
+  <div class="screen" id="sc2">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div class="sec-title">Biometric <em>Authentication</em></div>
+      <div class="sec-sub">Please place your finger on the scanner to verify your identity</div>
+    </div>
+    <div class="fp-container">
+      <div class="fp-ring" id="fpRing">
+        <div class="fp-icon" id="fpIcon">👆</div>
+      </div>
+      <div class="fp-label" id="fpLabel">Waiting for fingerprint...</div>
+      <div class="scan-bar"><div class="scan-fill" id="scanFill"></div></div>
+      <div id="fpStatus" style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem;min-height:1.5rem;"></div>
+      <button class="btn btn-gold" id="scanBtn" onclick="startScan()" style="margin-top:1.5rem;">📡 Scan Fingerprint</button>
+      <div class="voter-info" id="voterInfo">
+        <div class="vi-row"><span class="vi-key">Voter ID</span><span class="vi-val" id="viId">-</span></div>
+        <div class="vi-row"><span class="vi-key">Name</span><span class="vi-val">Pavyaa Sri S.</span></div>
+        <div class="vi-row"><span class="vi-key">Aadhaar</span><span class="vi-val">XXXX-XXXX-8421</span></div>
+        <div class="vi-row"><span class="vi-key">Constituency</span><span class="vi-val">Electronic City</span></div>
+        <div class="vi-row"><span class="vi-key">Status</span><span class="vi-val" style="color:var(--green);">✓ Verified</span></div>
+      </div>
+      <button class="btn btn-gold" id="nextBtn" onclick="goTo(3)" style="margin-top:1rem;display:none;">Proceed to Vote →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: VOTE -->
+  <div class="screen" id="sc3">
+    <div class="sec-title">Select Your <em>Candidate</em></div>
+    <div class="sec-sub">Choose one candidate carefully. Your vote is encrypted and anonymous.</div>
+    <div class="candidates-grid">
+      <div class="candidate-card c1" onclick="selectCandidate(this,'Arjun Mehta','National Progress Party','🌾')">
+        <div class="selected-check">✓</div>
+        <div class="candidate-avatar">👨‍💼</div>
+        <div class="candidate-name">Arjun Mehta</div>
+        <div class="candidate-party">National Progress Party</div>
+        <div class="candidate-symbol">🌾</div>
+      </div>
+      <div class="candidate-card c2" onclick="selectCandidate(this,'Priya Sharma','Democratic Alliance','🌿')">
+        <div class="selected-check">✓</div>
+        <div class="candidate-avatar">👩‍💼</div>
+        <div class="candidate-name">Priya Sharma</div>
+        <div class="candidate-party">Democratic Alliance</div>
+        <div class="candidate-symbol">🌿</div>
+      </div>
+      <div class="candidate-card c3" onclick="selectCandidate(this,'Ravi Kumar','People\'s Front','⚙️')">
+        <div class="selected-check">✓</div>
+        <div class="candidate-avatar">👨‍🦱</div>
+        <div class="candidate-name">Ravi Kumar</div>
+        <div class="candidate-party">People's Front</div>
+        <div class="candidate-symbol">⚙️</div>
+      </div>
+      <div class="candidate-card c4" onclick="selectCandidate(this,'Meena Iyer','Independent','☀️')">
+        <div class="selected-check">✓</div>
+        <div class="candidate-avatar">👩‍🦳</div>
+        <div class="candidate-name">Meena Iyer</div>
+        <div class="candidate-party">Independent</div>
+        <div class="candidate-symbol">☀️</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn btn-gold" id="voteBtn" onclick="goTo(4)" disabled>Confirm Selection →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: CONFIRM -->
+  <div class="screen" id="sc4">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div class="sec-title">Confirm <em>Your Vote</em></div>
+      <div class="sec-sub">Please review your choice before final submission. This action cannot be undone.</div>
+    </div>
+    <div class="confirm-box">
+      <div class="confirm-avatar" id="confAvatar" style="background:rgba(201,168,76,0.1);border:2px solid rgba(201,168,76,0.3);font-size:2.5rem;">👨‍💼</div>
+      <div class="confirm-name" id="confName">—</div>
+      <div class="confirm-party" id="confParty">—</div>
+      <div class="warning-box">⚠️ Once submitted, your vote cannot be changed. The system will record your biometric signature to prevent duplicate voting. Your vote choice remains fully anonymous.</div>
+      <div class="confirm-btns">
+        <button class="btn btn-red" onclick="goTo(3)">← Change Vote</button>
+        <button class="btn btn-gold" onclick="submitVote()">🗳️ Submit Vote</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: RESULTS -->
+  <div class="screen" id="sc5">
+    <div class="vote-success-anim">
+      <div class="success-icon">✅</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;margin:1rem 0 0.5rem;">Vote <em style="font-style:italic;color:var(--gold);">Recorded!</em></h2>
+      <p style="color:var(--muted);font-size:0.87rem;">Your vote has been securely encrypted and stored. Receipt ID: <span style="font-family:'JetBrains Mono',monospace;color:var(--gold);" id="receiptId"></span></p>
+    </div>
+    <div class="results-header">
+      <h2>Live <em>Election Results</em></h2>
+      <p>Real-time vote tally (including your vote)</p>
+    </div>
+    <div class="result-bars" id="resultBars"></div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">1,247</div><div class="stat-label">Total Votes</div></div>
+      <div class="stat-box"><div class="stat-num">94.3%</div><div class="stat-label">Turnout</div></div>
+      <div class="stat-box"><div class="stat-num">0</div><div class="stat-label">Invalid Votes</div></div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn btn-outline" onclick="resetDemo()">↺ Try Demo Again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let selectedCandidate = null;
+let selectedEl = null;
+const candidates = [
+  {name:'Arjun Mehta', party:'National Progress Party', votes:487, color:'#c9a84c', avatar:'👨‍💼'},
+  {name:'Priya Sharma', party:'Democratic Alliance', votes:389, color:'#4c8ec9', avatar:'👩‍💼'},
+  {name:'Ravi Kumar', party:"People's Front", votes:241, color:'#4cad7a', avatar:'👨‍🦱'},
+  {name:'Meena Iyer', party:'Independent', votes:130, color:'#c94c4c', avatar:'👩‍🦳'},
+];
+
+function goTo(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sc'+n).classList.add('active');
+  for(let i=1;i<=5;i++){
+    const s=document.getElementById('step'+i);
+    s.classList.remove('active','done');
+    if(i<n) s.classList.add('done');
+    else if(i===n) s.classList.add('active');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startAuth(){
+  const vid = document.getElementById('voterIdInput').value.trim() || 'MH7654321';
+  document.getElementById('viId').textContent = vid.toUpperCase();
+  goTo(2);
+}
+
+function startScan(){
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Scanning...';
+  const ring = document.getElementById('fpRing');
+  const fill = document.getElementById('scanFill');
+  const label = document.getElementById('fpLabel');
+  const status = document.getElementById('fpStatus');
+  const icon = document.getElementById('fpIcon');
+  ring.classList.add('scanning');
+  fill.style.width = '100%';
+  const msgs = ['Detecting fingerprint...','Reading biometric data...','Matching Aadhaar record...','Cross-verifying voter database...'];
+  let i=0;
+  const interval = setInterval(()=>{
+    if(i<msgs.length){ status.textContent = msgs[i]; label.textContent = msgs[i]; i++; }
+  },500);
+  setTimeout(()=>{
+    clearInterval(interval);
+    ring.classList.remove('scanning');
+    ring.classList.add('success');
+    icon.textContent = '✅';
+    label.textContent = '✓ Identity Verified!';
+    label.style.color = 'var(--green)';
+    status.textContent = 'Fingerprint matched — you are eligible to vote.';
+    status.style.color = 'var(--green)';
+    document.getElementById('voterInfo').classList.add('show');
+    document.getElementById('nextBtn').style.display = 'inline-flex';
+  },2200);
+}
+
+function selectCandidate(el, name, party, symbol){
+  document.querySelectorAll('.candidate-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCandidate = {name, party, symbol};
+  document.getElementById('voteBtn').disabled = false;
+  // update confirm screen
+  document.getElementById('confName').textContent = name;
+  document.getElementById('confParty').textContent = party;
+}
+
+function submitVote(){
+  if(!selectedCandidate) return;
+  // add vote to winner
+  const idx = candidates.findIndex(c=>c.name===selectedCandidate.name);
+  if(idx>=0) candidates[idx].votes++;
+  document.getElementById('receiptId').textContent = 'VT-'+Math.random().toString(36).substr(2,8).toUpperCase();
+  goTo(5);
+  setTimeout(renderResults, 300);
+}
+
+function renderResults(){
+  const total = candidates.reduce((a,c)=>a+c.votes,0);
+  const winner = candidates.reduce((a,b)=>a.votes>b.votes?a:b);
+  const html = candidates.sort((a,b)=>b.votes-a.votes).map(c=>`
+    <div class="result-row">
+      <div class="result-row-top">
+        <div>
+          <span class="result-cname">${c.avatar} ${c.name}</span>
+          ${c.name===winner.name?'<span class="winner-tag">🏆 Leading</span>':''}
+          <div class="result-cparty">${c.party}</div>
+        </div>
+        <div class="result-votes">${c.votes} votes (${((c.votes/total)*100).toFixed(1)}%)</div>
+      </div>
+      <div class="result-bar-bg">
+        <div class="result-bar-fill" style="background:${c.color};width:0%" data-pct="${(c.votes/total*100).toFixed(1)}"></div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('resultBars').innerHTML = html;
+  setTimeout(()=>{
+    document.querySelectorAll('.result-bar-fill').forEach(b=>{
+      b.style.width = b.dataset.pct + '%';
+    });
+  },100);
+}
+
+function resetDemo(){
+  selectedCandidate=null;
+  document.querySelectorAll('.candidate-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('voteBtn').disabled=true;
+  document.getElementById('fpRing').className='fp-ring';
+  document.getElementById('fpIcon').textContent='👆';
+  document.getElementById('fpLabel').textContent='Waiting for fingerprint...';
+  document.getElementById('fpLabel').style.color='';
+  document.getElementById('fpStatus').textContent='';
+  document.getElementById('scanFill').style.width='0%';
+  document.getElementById('voterInfo').classList.remove('show');
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('scanBtn').disabled=false;
+  document.getElementById('scanBtn').textContent='📡 Scan Fingerprint';
+  document.getElementById('voterIdInput').value='';
+  goTo(1);
+}
+</script>
+</body>
+</html>
