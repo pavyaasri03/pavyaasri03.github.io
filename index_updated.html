@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PavyaaSri S — Python Developer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --card: #161616;
+      --teal: #0fd9bb;
+      --teal-dim: #0b9e89;
+      --gold: #c9a84c;
+      --text: #e8e8e8;
+      --muted: #888;
+      --border: #222;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 58px;
+    }
+    .nav-brand { color: var(--teal); font-weight: 700; font-size: 1.1rem; text-decoration: none; }
+    .nav-links { display: flex; gap: 1.6rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.03em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── SECTIONS ── */
+    section { padding: 90px 0 60px; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: radial-gradient(ellipse at 60% 40%, rgba(15,217,187,0.06) 0%, transparent 65%);
+      padding-top: 58px;
+    }
+    .hero-eyebrow { color: var(--teal); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-name { font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.5rem; }
+    .hero-name span { color: var(--teal); }
+    .hero-role { font-size: 1.25rem; color: var(--muted); margin-bottom: 1.4rem; }
+    .hero-desc { max-width: 560px; color: #aaa; margin-bottom: 2rem; font-size: 1.02rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: 0.65rem 1.5rem; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; display: inline-block; }
+    .btn-primary { background: var(--teal); color: #000; }
+    .btn-primary:hover { background: #0fc4ab; }
+    .btn-outline { border: 1.5px solid var(--teal); color: var(--teal); }
+    .btn-outline:hover { background: rgba(15,217,187,0.08); }
+    .hero-badge { margin-top: 2.5rem; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--muted); }
+    .hero-badge::before { content: '●'; color: var(--teal); font-size: 0.6rem; }
+
+    /* ── SECTION TITLE ── */
+    .section-label { color: var(--teal); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .section-title { font-size: 1.9rem; font-weight: 700; margin-bottom: 2.2rem; }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .about-text p { color: #aaa; margin-bottom: 1rem; }
+    .about-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .about-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; }
+    .about-card .icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .about-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--teal); margin-bottom: 0.2rem; }
+    .about-card p { font-size: 0.83rem; color: var(--muted); margin: 0; }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; }
+    .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.3rem; }
+    .skill-card h3 { font-size: 0.8rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.9rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 0.25rem 0.65rem; font-size: 0.78rem; color: #ccc; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.6rem 1.8rem;
+      transition: border-color 0.25s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card:hover { border-color: var(--teal-dim); transform: translateY(-2px); }
+    .project-card.featured { border-color: rgba(15,217,187,0.3); }
+    .project-card.featured::before {
+      content: '✦ Featured';
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      font-size: 0.7rem; color: var(--teal); letter-spacing: 0.08em;
+    }
+    .project-number { color: var(--teal); font-size: 0.7rem; letter-spacing: 0.12em; font-weight: 700; margin-bottom: 0.6rem; opacity: 0.7; }
+    .project-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .project-label { display: inline-block; font-size: 0.7rem; color: var(--gold); border: 1px solid rgba(201,168,76,0.3); border-radius: 3px; padding: 0.15rem 0.5rem; margin-bottom: 0.8rem; }
+    .project-desc { color: #aaa; font-size: 0.93rem; margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.1rem; }
+    .stack-tag { background: rgba(15,217,187,0.08); border: 1px solid rgba(15,217,187,0.2); color: var(--teal); border-radius: 4px; padding: 0.2rem 0.6rem; font-size: 0.74rem; }
+    .project-links { display: flex; gap: 0.8rem; }
+    .project-link { color: var(--muted); font-size: 0.83rem; text-decoration: none; border: 1px solid var(--border); border-radius: 5px; padding: 0.35rem 0.8rem; transition: all 0.2s; }
+    .project-link:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── GITHUB ── */
+    .github-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .repos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.5rem; }
+    .repo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; }
+    .repo-name { font-size: 0.85rem; font-weight: 600; color: var(--teal); margin-bottom: 0.3rem; }
+    .repo-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .repo-lang { font-size: 0.73rem; color: #666; }
+
+    /* ── CERTS ── */
+    .cert-list { display: flex; flex-direction: column; gap: 1rem; }
+    .cert-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; }
+    .cert-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .cert-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .cert-issuer { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── RESUME ── */
+    .resume-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .resume-meta p { color: var(--muted); font-size: 0.88rem; margin-top: 0.5rem; }
+
+    /* ── CONTACT ── */
+    .contact-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .contact-link { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; text-decoration: none; color: var(--text); transition: border-color 0.2s; display: flex; align-items: center; gap: 0.8rem; }
+    .contact-link:hover { border-color: var(--teal); }
+    .contact-link .icon { font-size: 1.2rem; }
+    .contact-link .label { font-size: 0.75rem; color: var(--muted); }
+    .contact-link .value { font-size: 0.88rem; font-weight: 600; }
+    .contact-form { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; display: grid; gap: 1rem; }
+    .contact-form input, .contact-form textarea {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); padding: 0.7rem 1rem; font-size: 0.9rem; font-family: inherit; width: 100%;
+      transition: border-color 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--teal); }
+    .contact-form textarea { resize: vertical; min-height: 110px; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 1.8rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.8rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .repos-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-brand">PavyaaSri.</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#github">GitHub</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="container">
+    <p class="hero-eyebrow">Python Developer · Electronic City, Bangalore</p>
+    <h1 class="hero-name">PavyaaSri <span>S.</span></h1>
+    <p class="hero-role">Software Engineer</p>
+    <p class="hero-desc">MCA Graduate passionate about building elegant, efficient software. Skilled in Python, Django, JavaScript, Node.js and SQL — with hands-on experience delivering real-world solutions including AI-powered applications.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-badge">Open to opportunities · Bangalore</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">01 — About</p>
+    <h2 class="section-title">Background &amp; Education</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm <strong>PavyaaSri S</strong>, an MCA Graduate with a strong foundation in Computer Science and a passion for building software that solves real problems. I thrive at the intersection of clean code, system design, and impactful solutions.</p>
+        <p>Based in <strong>Electronic City, Bangalore</strong> — India's leading tech hub — I bring expertise in <strong>Python, Django, JavaScript, and Node.js</strong>, along with hands-on experience through internships in machine learning and web development.</p>
+        <p>I'm committed to <strong>continuous learning, clean code practices</strong>, and contributing positively to every engineering team I join — working effectively both independently and collaboratively with stakeholders.</p>
+        <p>🏆 <strong>Best Student Award</strong> — Mahindra Naandi Foundation<br><small style="color:var(--muted)">Recognized for Team Leadership Excellence</small></p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="icon">🎓</div>
+          <h4>Post Graduation</h4>
+          <p>Master of Computer Applications (MCA)<br>Marudhar Kesari Jain College for Women, Vaniyambadi · 2023–2025</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">📚</div>
+          <h4>Under Graduation</h4>
+          <p>B.Sc. Computer Science<br>Marudhar Kesari Jain College for Women, Vaniyambadi · 2020–2023</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">💼</div>
+          <h4>Current Role</h4>
+          <p>Data Entry Operator (Contract)<br>Bosch Limited / UDS, Hosa Road, Bangalore</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🎯</div>
+          <h4>Career Objective</h4>
+          <p>Build impactful software and grow as a full-stack Python developer in a fast-paced engineering environment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">02 — Skills</p>
+    <h2 class="section-title">Technical Expertise</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>⟨/⟩ Programming</h3>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">SQL</span><span class="tag">PHP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>⚙ Frameworks</h3>
+        <div class="skill-tags">
+          <span class="tag">Django</span><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">React</span><span class="tag">Moodle</span><span class="tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>🗄 Databases</h3>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">SQLite</span><span class="tag">DBMS</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>💡 Concepts</h3>
+        <div class="skill-tags">
+          <span class="tag">OOP</span><span class="tag">DSA</span><span class="tag">SDLC</span><span class="tag">Agile</span><span class="tag">REST APIs</span><span class="tag">AI/LLM APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">03 — Projects</p>
+    <h2 class="section-title">Featured Work</h2>
+    <div class="projects-grid">
+
+      <!-- PROJECT 1: ArivuPro AI Evaluator (NEW) -->
+      <div class="project-card featured">
+        <p class="project-number">01 / 04</p>
+        <h3 class="project-title">AI-Powered Answer Sheet Evaluator</h3>
+        <span class="project-label">AI / Full-Stack</span>
+        <p class="project-desc">An intelligent web application that automates academic evaluation. Students upload question papers, answer keys, and handwritten responses — Claude AI grades them with detailed feedback, scores, and suggestions. Built as a technical project for ArivuPro Academy's hiring process.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Anthropic Claude API</span>
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Multi-page Routing</span>
+          <span class="stack-tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pavyaasri03.github.io/ai-evaluator-demo.html" class="project-link">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/ai-answer-evaluator" class="project-link">⌥ GitHub Repo</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Biometric Voting -->
+      <div class="project-card">
+        <p class="project-number">02 / 04</p>
+        <h3 class="project-title">Biometric Voting System</h3>
+        <span class="project-label">Academic Project</span>
+        <p class="project-desc">A secure digital voting platform that eliminates fake votes by integrating fingerprint authentication with Aadhaar-based verification. Built with Node.js and MongoDB for biometric data storage — ensuring tamper-proof vote recording and real-time verification.</p>
+        <div class="project-stack">
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">MongoDB</span>
+          <span class="stack-tag">Biometric API</span>
+          <span class="stack-tag">HTML/CSS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pavyaasri03.github.io/biometric-voting-demo.html" class="project-link">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/biometric-voting-system" class="project-link">⌥ GitHub Repo</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: LMS -->
+      <div class="project-card">
+        <p class="project-number">03 / 04</p>
+        <h3 class="project-title">Learning Management System</h3>
+        <span class="project-label">Academic Project</span>
+        <p class="project-desc">A Moodle-based LMS enabling department-wise assignment submission and digital resource sharing across the institution. Collaborated with faculty stakeholders to configure and customize the platform — currently live and actively used in production by students and staff.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Moodle</span>
+          <span class="stack-tag">PHP</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">HTML/CSS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pavyaasri03.github.io/lms-demo.html" class="project-link">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/learning-management-system" class="project-link">⌥ GitHub Repo</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: Complaint System -->
+      <div class="project-card">
+        <p class="project-number">04 / 04</p>
+        <h3 class="project-title">Online Complaint Registration System</h3>
+        <span class="project-label">Personal Project</span>
+        <p class="project-desc">A web-based complaint management platform allowing citizens to register, track, and resolve complaints online. Features role-based access for users and administrators, real-time status tracking with a timeline view, and a clean responsive interface.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Django</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">HTML/CSS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pavyaasri03.github.io/complaint-system-demo.html" class="project-link">▶ Live Demo</a>
+          <a href="https://github.com/pavyaasri03/online-complaint-registration" class="project-link">⌥ GitHub Repo</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB -->
+<section id="github">
+  <div class="container">
+    <p class="section-label">04 — GitHub</p>
+    <h2 class="section-title">Open Source &amp; Repositories</h2>
+    <div class="github-box">
+      <div>
+        <p style="font-size:1.05rem;font-weight:700;">👩‍💻 github.com/pavyaasri03</p>
+        <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem;">Explore my repositories and projects. I maintain clean, well-documented code as part of my development practice.</p>
+      </div>
+      <a href="https://github.com/pavyaasri03" target="_blank" class="btn btn-outline">Visit GitHub Profile ↗</a>
+    </div>
+    <div class="repos-grid" style="margin-top:1.5rem;">
+      <div class="repo-card">
+        <p class="repo-name">📁 ai-answer-evaluator</p>
+        <p class="repo-desc">AI-powered answer sheet grading with Claude API</p>
+        <p class="repo-lang">React / Python</p>
+      </div>
+      <div class="repo-card">
+        <p class="repo-name">📁 biometric-voting-system</p>
+        <p class="repo-desc">Secure fingerprint + Aadhaar-based digital voting platform</p>
+        <p class="repo-lang">JavaScript / Node.js</p>
+      </div>
+      <div class="repo-card">
+        <p class="repo-name">📁 learning-management-system</p>
+        <p class="repo-desc">Moodle-based institutional LMS — live in production</p>
+        <p class="repo-lang">PHP / MySQL</p>
+      </div>
+      <div class="repo-card">
+        <p class="repo-name">📁 online-complaint-registration</p>
+        <p class="repo-desc">Web-based complaint tracking &amp; management system</p>
+        <p class="repo-lang">Python / Django</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <p class="section-label">05 — Certifications</p>
+    <h2 class="section-title">Courses &amp; Achievements</h2>
+    <div class="cert-list">
+      <div class="cert-card">
+        <div class="cert-icon">🎓</div>
+        <div>
+          <p class="cert-title">Database Management Systems (DBMS)</p>
+          <p class="cert-issuer">NPTEL · IIT Faculty · Ministry of Education, Government of India</p>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🤖</div>
+        <div>
+          <p class="cert-title">Machine Learning — Industry Internship</p>
+          <p class="cert-issuer">30-Day Industry Training Program · Python, Data Preprocessing, ML Algorithms</p>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🌐</div>
+        <div>
+          <p class="cert-title">Web Development — Industry Internship</p>
+          <p class="cert-issuer">15-Day Industry Training Program · HTML5, CSS3, JavaScript, Responsive Design</p>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🔐</div>
+        <div>
+          <p class="cert-title">DEFCON Coimbatore — CTF Participant</p>
+          <p class="cert-issuer">Cybersecurity · Web Exploitation, OSINT, Cryptography, Forensics</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME -->
+<section id="resume">
+  <div class="container">
+    <p class="section-label">06 — Resume</p>
+    <h2 class="section-title">Download Resume</h2>
+    <div class="resume-box">
+      <div class="resume-meta">
+        <h3 style="font-size:1.1rem;">PavyaaSri S — Resume</h3>
+        <p>MCA Graduate · Python · Django · JavaScript · Node.js · MySQL · MongoDB<br>4 Projects · 2 Internships · NPTEL DBMS Certification · Best Student Award</p>
+      </div>
+      <a href="https://pavyaasri03.github.io/PavyaaSri_resume.pdf" class="btn btn-primary">⬇ Download PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">07 — Contact</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p style="color:var(--muted);margin-bottom:1.8rem;">I'm always open to discussing new opportunities, collaborations, or projects. Feel free to reach out — I'd love to connect!</p>
+    <div class="contact-links">
+      <a href="mailto:pavyaasris@gmail.com" class="contact-link">
+        <span class="icon">✉</span>
+        <div><div class="label">Email</div><div class="value">pavyaasris@gmail.com</div></div>
+      </a>
+      <a href="https://www.linkedin.com/in/pavyaa-sri-s-5024b23a7" target="_blank" class="contact-link">
+        <span class="icon">in</span>
+        <div><div class="label">LinkedIn</div><div class="value">linkedin.com/in/pavyaa-sri-s</div></div>
+      </a>
+      <a href="https://github.com/pavyaasri03" target="_blank" class="contact-link">
+        <span class="icon">🐙</span>
+        <div><div class="label">GitHub</div><div class="value">github.com/pavyaasri03</div></div>
+      </a>
+      <a href="tel:+919150766362" class="contact-link">
+        <span class="icon">📞</span>
+        <div><div class="label">Phone</div><div class="value">+91 9150766362</div></div>
+      </a>
+    </div>
+    <div class="contact-form">
+      <input type="text" placeholder="Your Name" />
+      <input type="email" placeholder="Email Address" />
+      <textarea placeholder="Message"></textarea>
+      <button class="btn btn-primary" style="justify-self:start;" onclick="alert('Thanks for reaching out! I\'ll get back to you soon.')">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 PavyaaSri S · Python Developer, Bangalore · Built with ♥ · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
