@@ -1,4 +1,6 @@
 import { createPortfolioScene } from './scene.js';
+import { setupSession } from './session.js';
+import { setupSkillsScene } from './skills-scene.js';
 
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
@@ -16,7 +18,7 @@ const projects=[
  {name:'Smart Attendance',kind:'Full-stack workflows',text:'Faculty onboarding, timetable assignment and weekly scheduling for three roles, with overlap detection and responsive dashboards.',href:'#smart-attendance'}
 ];
 const explorer=$('#explorer'),dialog=$('#project-dialog'),canvas=$('#world-canvas');
-let scene=null,exploring=false,lastFocus=null,paused=false;
+let scene=null,exploring=false,lastFocus=null,paused=false,welcomeActive=false,session=null;
 const preference=matchMedia('(prefers-reduced-motion: reduce)');
 function failure(){
  document.body.classList.remove('webgl-ready','exploring');
@@ -38,7 +40,8 @@ function motion(){
  const stopped=paused||preference.matches;
  document.body.classList.toggle('motion-paused',stopped);
  const button=$('#motion-toggle');button.textContent=preference.matches?'Reduced motion':paused?'Resume motion':'Pause motion';button.setAttribute('aria-pressed',String(stopped));button.disabled=preference.matches;
- scene?.setMotion(paused,preference.matches);
+ scene?.setMotion(paused||welcomeActive,preference.matches);
+ session?.motion();
 }
 $('#motion-toggle').addEventListener('click',()=>{paused=!paused;motion();});preference.addEventListener('change',motion);motion();
 function openExplorer(){
@@ -91,3 +94,9 @@ addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFra
 const reveal=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');reveal.unobserve(entry.target);}}),{threshold:.12});
 $$('[data-reveal]').forEach(element=>reveal.observe(element));
 document.body.classList.add('enhanced');
+setupSkillsScene();
+session=setupSession({
+ onWelcomeChange(value){welcomeActive=value;motion();},
+ onToggleMotion(){paused=!paused;motion();},
+ isMotionStopped(){return paused||preference.matches;}
+});

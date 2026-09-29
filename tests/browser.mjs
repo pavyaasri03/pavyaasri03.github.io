@@ -11,6 +11,7 @@ const browser=await chromium.launch({headless:true,args:['--enable-unsafe-swifts
 await mkdir('test-results',{recursive:true});
 const errors=[];const checks=[];
 const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+await context.addInitScript(()=>localStorage.setItem('pavyaa:welcome:seen','1'));
 await context.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
 const page=await context.newPage();
 page.on('pageerror',e=>errors.push(e.message));

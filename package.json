@@ -8,7 +8,8 @@
     "start": "node scripts/serve.mjs",
     "test": "node --test tests/core.test.mjs",
     "test:browser": "node tests/browser.mjs",
-    "test:spatial": "node tests/spatial.mjs"
+    "test:spatial": "node tests/spatial.mjs",
+    "test:session": "node tests/session.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",

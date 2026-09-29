@@ -48,6 +48,8 @@ jobs:
         run: npm run test:browser
       - name: Test the interactive 3D experience
         run: npm run test:spatial
+      - name: Test welcome, feedback, skills and resume download
+        run: npm run test:session
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

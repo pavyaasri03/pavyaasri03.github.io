@@ -21,7 +21,8 @@ for(const file of files.filter(f=>f.endsWith('.html'))) {
     const url=match[1];
     if(/^(https?:|mailto:|tel:|data:)/.test(url)) continue;
     if(url.startsWith('#')) { assert.ok(ids.includes(url.slice(1)),`Missing anchor ${url} in ${file}`);continue; }
-    const [path,anchor]=url.split('#');
+    const [pathname,anchor]=url.split('#');
+    const path=pathname.split('?')[0];
     let target=resolve(path.startsWith('/')?root:dirname(file),'.'+(path.startsWith('/')?path:'/'+path));
     if((await stat(target)).isDirectory()) target=resolve(target,'index.html');
     assert.ok(files.includes(target),`Missing file ${url} in ${file}`);

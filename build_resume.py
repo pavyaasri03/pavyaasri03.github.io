@@ -62,7 +62,7 @@ p('<b>Master of Computer Applications</b> | 2023 - 2025 | CGPA: 9.67/10<br/>Maru
 p('<b>B.Sc. Computer Science</b> | 2020 - 2023 | CGPA: 9.0/10<br/>Marudhar Kesari Jain College for Women, Vaniyambadi')
 section('TRAINING & ACHIEVEMENTS')
 p('Machine Learning Internship (30 days): Python, preprocessing, supervised ML.<br/>NPTEL: Database Management Systems | Best Student Award: Mahindra Naandi Foundation')
-doc = SimpleDocTemplate(str(OUT / 'Pavyaa_Sri_Res.pdf'), pagesize=A4, rightMargin=35, leftMargin=35, topMargin=30, bottomMargin=28, title='Pavyaa Sri S - AI Full Stack Developer', author='Pavyaa Sri S')
+doc = SimpleDocTemplate(str(OUT / 'Pavyaa_Sri_AI_Engineer_Draft.pdf'), pagesize=A4, rightMargin=35, leftMargin=35, topMargin=30, bottomMargin=28, title='Pavyaa Sri S - AI Full Stack Developer', author='Pavyaa Sri S')
 doc.build(story)
 (OUT / 'Pavyaa_Sri_AI_Engineer_Resume.txt').write_text('\n\n'.join(plain), encoding='utf-8')
 print('Resume generated.')

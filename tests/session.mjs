@@ -1,0 +1,75 @@
+import {chromium} from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
+import assert from 'node:assert/strict';
+import {once} from 'node:events';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+process.env.PORT='0';
+const {server}=await import('../scripts/serve.mjs');
+if(!server.listening)await once(server,'listening');
+const base=`http://127.0.0.1:${server.address().port}`;
+const browser=await chromium.launch({headless:true,args:['--enable-unsafe-swiftshader'],...(process.platform==='win32'?{executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'}:{})});
+const errors=[],checks=[];
+await mkdir('test-results',{recursive:true});
+const context=await browser.newContext({viewport:{width:1440,height:1000}});
+await context.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
+const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+async function audit(label){const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(r.violations.map(v=>`${v.id}: ${v.nodes.map(n=>n.target)}`),[],label);}
+try {
+ await page.goto(base);await page.locator('#welcome-dialog[open]').waitFor();
+ await page.waitForFunction(()=>Number(document.querySelector('#welcome-canvas').dataset.frames)>3);
+ await page.screenshot({path:'test-results/welcome-desktop.png'});await audit('Welcome accessibility');
+ await page.locator('#welcome-motion').click();await page.waitForTimeout(200);
+ const f=await page.locator('#welcome-canvas').getAttribute('data-frames');await page.waitForTimeout(250);assert.equal(await page.locator('#welcome-canvas').getAttribute('data-frames'),f);
+ await page.locator('#welcome-motion').click();await page.waitForFunction(n=>Number(document.querySelector('#welcome-canvas').dataset.frames)>Number(n),f);
+ await page.locator('#enter-portfolio').click();assert.equal(await page.locator('#welcome-dialog').isVisible(),false);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'hero-name');
+ await page.reload();assert.equal(await page.locator('#welcome-dialog').isVisible(),false);
+ await page.locator('[data-replay-welcome]').click();await page.keyboard.press('Escape');
+ assert.equal(await page.evaluate(()=>document.activeElement.hasAttribute('data-replay-welcome')),true);
+ checks.push('First visit, real animated core, pause/resume, dismissal persistence, replay, Escape and focus restoration');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});await page.locator('[data-replay-welcome]').click();
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.screenshot({path:`test-results/welcome-${width}.png`});
+  const box=await page.locator('#welcome-dialog').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=width);
+  if(width===390)await audit('Mobile welcome accessibility');
+  await page.locator('#enter-portfolio').click();
+ }
+ checks.push('Welcome fits 320–1440px with reduced motion');
+ await page.setViewportSize({width:1440,height:1000});
+ await page.locator('#skill-matrix').scrollIntoViewIfNeeded();
+ const labels=await page.locator('.skill-group li').allTextContents();
+ for(const skill of ['LLM orchestration','Prompt engineering','Source grounding','Output validation','AI evaluation/grading','OCR','Multimodal AI','Speech-to-text','Text-to-speech','Gemini','DeepSeek','Claude','Python','TypeScript','JavaScript','SQL','React','Next.js 14','FastAPI','Node.js','Express','Django','PostgreSQL','Supabase','MongoDB','MySQL','REST APIs','Row-Level Security','Git','GitHub Actions','Vercel','Railway','FFmpeg','CI/CD','Feature flags','Moodle','PHP','HTML','CSS','Supervised ML'])assert.ok(labels.includes(skill),skill);
+ await page.locator('[data-skill-filter="ai"]').click();assert.equal(await page.locator('.skill-group:visible').count(),1);assert.match(await page.locator('#skill-count').innerText(),/12 skills/);
+ await page.locator('[data-skill-filter="all"]').click();await audit('Skill matrix accessibility');await page.screenshot({path:'test-results/skills-desktop.png'});
+ const [download]=await Promise.all([page.waitForEvent('download'),page.locator('.contact-links a[download]').click()]);
+ assert.equal(download.suggestedFilename(),'Pavyaa_Sri_Res.pdf');
+ assert.deepEqual(await readFile(await download.path()),await readFile('output/pdf/Pavyaa_Sri_Res.pdf'));
+ const pdf=await readFile('output/pdf/Pavyaa_Sri_Res.pdf');assert.equal(pdf.length,300565,'Original supplied PDF, not generated draft');
+ checks.push('Resume filename and actual downloaded bytes; all technical skills and working filters');
+ await page.waitForFunction(()=>performance.now()>16000);
+ await page.dispatchEvent('html','mouseleave',{clientY:0});
+ assert.equal(await page.locator('#departure-prompt').isVisible(),true);
+ await audit('Departure invitation accessibility');
+ await page.locator('#dismiss-departure').click();
+ await page.dispatchEvent('html','mouseleave',{clientY:0});
+ assert.equal(await page.locator('#departure-prompt').isVisible(),false);
+ checks.push('Departure invitation requires engagement and stays dismissed');
+ await page.locator('.session-links [data-feedback]').click();await audit('Feedback accessibility');
+ await page.screenshot({path:'test-results/feedback-desktop.png'});
+ await page.locator('#feedback-intent').selectOption('Portfolio feedback');
+ await page.locator('#feedback-message').fill('I liked the AI work & would like to connect.');
+ await page.locator('#feedback-form button[type="submit"]').click();
+ assert.match(await page.locator('#feedback-status').innerText(),/draft requested/);
+ assert.equal(await page.locator('#feedback-message').inputValue(),'I liked the AI work & would like to connect.');
+ await page.keyboard.press('Escape');assert.equal(await page.locator('#feedback-dialog').isVisible(),false);
+ await page.setViewportSize({width:390,height:844});await page.locator('.session-links [data-feedback]').click();await audit('Mobile feedback accessibility');await page.screenshot({path:'test-results/feedback-mobile.png'});await page.locator('#continue-exploring').click();
+ checks.push('Feedback dialog, email draft, preserved text, mobile layout and keyboard dismissal');
+ // Storage denial and missing WebGL still give visitors immediate access.
+ const fallback=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
+ await fallback.addInitScript(()=>{Storage.prototype.getItem=()=>{throw new Error('Blocked');};Storage.prototype.setItem=()=>{throw new Error('Blocked');};const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return /^webgl/.test(type)?null:original.call(this,type,...args);};});
+ const plain=await fallback.newPage();plain.on('pageerror',e=>errors.push(e.message));await plain.goto(base);await plain.locator('#skip-welcome').click();assert.equal(await plain.locator('#hero-name').isVisible(),true);await fallback.close();
+ checks.push('Storage and WebGL fallback remain usable');
+ assert.deepEqual(errors,[]);await writeFile('test-results/session-report.json',JSON.stringify({checks},null,2));console.log(`PASS: ${checks.length} session check groups; no runtime errors.`);
+} finally {await browser.close();await new Promise(resolve=>server.close(resolve));}

@@ -40,7 +40,8 @@ Sample data resets on reload or explicit reset. Attachments record only the sele
 - `styles/portfolio.css`: responsive layout, visual tokens and CSS motion.
 - `scripts/bundle.mjs`: esbuild output to `portfolio.js`. Do not edit that generated bundle manually.
 - `assets/portfolio.css`: generated CSS. `assets/demo.css`, `assets/demo.js` and `assets/demo-core.mjs` support the standalone demos.
-- `output/pdf/Pavyaa_Sri_Res.pdf`: current downloadable resume. `build_resume.py` regenerates it; the historical root DOCX is not published.
+- `output/pdf/Pavyaa_Sri_Res.pdf`: exact user-supplied resume, copied from the local `docs/Pavyaa_Sri_Res.pdf`. Preserve this PDF. The historical generator now writes `Pavyaa_Sri_AI_Engineer_Draft.pdf` so it cannot overwrite the supplied resume.
+- `src/session.js` and `src/welcome-core.js`: first-visit welcome, procedural 3D neural core, skill filtering and optional email feedback. The welcome remembers dismissal locally; direct section links skip it. Replay is available in the footer. No feedback is sent or stored on a server. The visitor sends an email through their own email app.
 
 ## Verification
 
@@ -50,6 +51,7 @@ npm run build
 npx playwright install chromium
 npm run test:browser
 npm run test:spatial
+npm run test:session
 ```
 
 Windows uses installed Google Chrome; Linux uses Playwright Chromium. Headless checks enable software WebGL. Tests cover layouts, accessibility, links, no-JavaScript reading, demo workflows, real 3D rendering, pause/resume, drag, scroll stages, explorer controls, mesh picking, dialogs and WebGL failure. Screenshots and reports are written to ignored `test-results/`.
