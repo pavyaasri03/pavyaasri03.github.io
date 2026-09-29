@@ -1,0 +1,17 @@
+{
+  "name": "pavyaa-engineering-stories",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pavyaa Sri S portfolio and interactive project demonstrations",
+  "scripts": {
+    "build": "tailwindcss -i styles/portfolio.css -o assets/portfolio.css --minify && node scripts/build.mjs && node scripts/check-site.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/core.test.mjs",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "playwright": "^1.51.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -1,1049 +1,429 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PavyaaSri S — AI Full-Stack Developer</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
-
-:root {
-  --bg: #0d0d0f;
-  --s1: #141418;
-  --s2: #1c1c22;
-  --gold: #c9a84c;
-  --gold2: #e2c272;
-  --goldbg: rgba(201,168,76,0.12);
-  --text: #e8e6e0;
-  --muted: #8a8580;
-  --dim: #4a4845;
-  --green: #4cad7a;
-  --blue: #4c8ec9;
-  --border: rgba(255,255,255,0.08);
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
-
-/* ── NAV ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  background: rgba(13,13,15,0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 600;
-}
-.nav-links {
-  display: flex;
-  gap: 1.8rem;
-  list-style: none;
-}
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--gold); }
-
-/* ── SECTIONS ── */
-section {
-  padding: 6rem 2rem 4rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-section:first-of-type { padding-top: 0; }
-
-.sec-label {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--gold);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 0.6rem;
-}
-.sec-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 400;
-  line-height: 1.15;
-  margin-bottom: 0.5rem;
-}
-.sec-title span { color: var(--gold); font-style: italic; }
-.sec-line {
-  width: 50px; height: 2px;
-  background: var(--gold);
-  margin-bottom: 3rem;
-}
-
-/* ── HOME ── */
-#home {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 80px;
-  position: relative;
-  overflow: hidden;
-}
-.home-bg {
-  position: absolute;
-  top: 0; right: 0;
-  width: 400px; height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.home-eyebrow {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.8rem;
-  color: var(--gold);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 1.2rem;
-  animation: fadeUp 0.6s 0.1s both;
-}
-.home-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 6.5rem);
-  font-weight: 600;
-  line-height: 1;
-  margin-bottom: 0.3rem;
-  animation: fadeUp 0.6s 0.2s both;
-}
-.home-name-sub {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 1.5rem;
-  animation: fadeUp 0.6s 0.3s both;
-}
-.home-title {
-  font-size: 1rem;
-  color: var(--muted);
-  max-width: 520px;
-  line-height: 1.8;
-  font-weight: 300;
-  animation: fadeUp 0.6s 0.4s both;
-}
-.home-btns {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  flex-wrap: wrap;
-  animation: fadeUp 0.6s 0.5s both;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.8rem 1.8rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: 'Inter', sans-serif;
-}
-.btn-gold { background: var(--gold); color: #0d0d0f; }
-.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
-.btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
-.btn-outline:hover { background: var(--goldbg); transform: translateY(-2px); }
-.status-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--green);
-  margin-top: 1.5rem;
-  animation: fadeUp 0.6s 0.6s both;
-}
-.dot {
-  width: 7px; height: 7px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: blink 2s infinite;
-}
-
-/* ── ABOUT ── */
-#about { border-top: 1px solid var(--border); }
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
-.about-text p {
-  color: var(--muted);
-  margin-bottom: 1rem;
-  font-weight: 300;
-  font-size: 0.95rem;
-  line-height: 1.85;
-}
-.about-text p b { color: var(--text); font-weight: 500; }
-.award {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 1rem 1.2rem;
-  background: var(--goldbg);
-  border: 1px solid rgba(201,168,76,0.25);
-  margin-top: 1.5rem;
-}
-.award-icon { font-size: 1.6rem; }
-.award-text { font-size: 0.83rem; color: var(--gold2); line-height: 1.4; }
-.fact-cards { display: flex; flex-direction: column; gap: 1rem; }
-.fact {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--gold);
-  padding: 1.2rem 1.4rem;
-}
-.fact-label {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.65rem;
-  color: var(--gold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 0.35rem;
-}
-.fact-val {
-  font-size: 0.88rem;
-  color: var(--text);
-  font-weight: 400;
-  line-height: 1.5;
-}
-.fact-val small { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
-
-/* ── SKILLS ── */
-#skills { border-top: 1px solid var(--border); }
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-.skill-box {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 1.8rem;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.skill-box:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-3px); }
-.skill-box-head {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 1.2rem;
-}
-.skill-icon {
-  width: 34px; height: 34px;
-  background: var(--goldbg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-}
-.skill-box-name {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.tag {
-  padding: 0.3rem 0.8rem;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  font-family: 'Fira Code', monospace;
-  font-size: 0.73rem;
-  color: var(--muted);
-  transition: all 0.2s;
-}
-.tag:hover { color: var(--gold); border-color: rgba(201,168,76,0.35); background: var(--goldbg); }
-
-/* ── PROJECTS ── */
-#projects { border-top: 1px solid var(--border); }
-.projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
-.project {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1.5rem;
-  align-items: start;
-  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.project::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.project:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-.project:hover::before { opacity: 1; }
-.proj-num {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.68rem;
-  color: var(--dim);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.1em;
-}
-.proj-badge {
-  display: inline-block;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.62rem;
-  padding: 0.2rem 0.6rem;
-  margin-bottom: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.badge-blue { background: rgba(76,142,201,0.12); color: var(--blue); border: 1px solid rgba(76,142,201,0.25); }
-.badge-green { background: rgba(76,173,122,0.12); color: var(--green); border: 1px solid rgba(76,173,122,0.25); }
-.badge-gold { background: var(--goldbg); color: var(--gold2); border: 1px solid rgba(201,168,76,0.3); }
-.proj-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  margin-bottom: 0.7rem;
-  line-height: 1.3;
-}
-.proj-desc {
-  font-size: 0.87rem;
-  color: var(--muted);
-  line-height: 1.8;
-  font-weight: 300;
-  margin-bottom: 1.2rem;
-}
-.proj-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
-.pill {
-  padding: 0.22rem 0.65rem;
-  background: var(--goldbg);
-  border: 1px solid rgba(201,168,76,0.2);
-  font-family: 'Fira Code', monospace;
-  font-size: 0.67rem;
-  color: var(--gold);
-}
-.proj-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-.proj-link {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--muted);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 1rem;
-  border: 1px solid var(--border);
-  transition: all 0.2s;
-}
-.proj-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); background: var(--goldbg); }
-.proj-link.demo { color: var(--gold); border-color: rgba(201,168,76,0.35); }
-.proj-link.demo:hover { background: var(--goldbg); }
-.proj-num-big {
-  font-family: 'Playfair Display', serif;
-  font-size: 5rem;
-  font-weight: 600;
-  color: var(--border);
-  line-height: 1;
-  user-select: none;
-}
-
-/* ── GITHUB ── */
-#github { border-top: 1px solid var(--border); }
-.github-card {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 2.5rem;
-}
-.github-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-.github-avatar {
-  width: 72px; height: 72px;
-  border-radius: 50%;
-  background: var(--goldbg);
-  border: 2px solid rgba(201,168,76,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-.github-info h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin-bottom: 0.3rem;
-}
-.github-info h3 span { color: var(--gold); }
-.github-info p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
-.repos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-.repo {
-  background: var(--s2);
-  border: 1px solid var(--border);
-  padding: 1.1rem 1.2rem;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.repo:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
-.repo-name {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.78rem;
-  color: var(--gold);
-  margin-bottom: 0.35rem;
-}
-.repo-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
-.repo-lang {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.7rem;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.68rem;
-  color: var(--dim);
-}
-.lang-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-/* ── CERTS ── */
-#certifications { border-top: 1px solid var(--border); }
-.cert-card {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 1.5rem;
-  max-width: 600px;
-  transition: border-color 0.2s;
-}
-.cert-card:hover { border-color: rgba(201,168,76,0.3); }
-.cert-ico {
-  width: 50px; height: 50px;
-  background: var(--goldbg);
-  border: 1px solid rgba(201,168,76,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-.cert-name { font-size: 0.92rem; font-weight: 500; margin-bottom: 0.2rem; }
-.cert-issuer {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.68rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* ── RESUME ── */
-#resume { border-top: 1px solid var(--border); }
-.resume-card {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 2.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.resume-info h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-}
-.resume-info p { color: var(--muted); font-size: 0.87rem; max-width: 450px; }
-.resume-hls { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.resume-hl {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.73rem;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.resume-hl::before { content: '▸'; color: var(--gold); }
-.dl-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-.dl-box {
-  width: 80px; height: 80px;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  transition: all 0.3s;
-}
-.dl-btn:hover .dl-box { background: var(--goldbg); border-color: var(--gold); transform: translateY(-3px); }
-.dl-label {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.65rem;
-  color: var(--gold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ── CONTACT ── */
-#contact { border-top: 1px solid var(--border); }
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
-.contact-intro { font-size: 0.93rem; color: var(--muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.8rem; }
-.contact-items { display: flex; flex-direction: column; gap: 0.8rem; }
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.2rem;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.contact-item:hover { border-color: rgba(201,168,76,0.35); transform: translateX(5px); }
-.c-ico {
-  width: 38px; height: 38px;
-  background: var(--goldbg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-.c-lbl { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.15rem; }
-.c-val { font-size: 0.87rem; color: var(--text); }
-.contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
-.f-label { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; display: block; }
-.f-input, .f-textarea {
-  width: 100%;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.87rem;
-  padding: 0.75rem 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.f-input:focus, .f-textarea:focus { border-color: rgba(201,168,76,0.45); }
-.f-textarea { min-height: 110px; resize: vertical; }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem;
-  text-align: center;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--dim);
-}
-footer span { color: var(--gold); }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 720px) {
-  .nav-links { display: none; }
-  .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .project { grid-template-columns: 1fr; }
-  .proj-num-big { display: none; }
-  .repos-grid { grid-template-columns: 1fr; }
-  .resume-card { flex-direction: column; }
-  .github-top { flex-direction: column; }
-}
-</style>
+<!DOCTYPE html><html lang="en" class="scroll-smooth"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0C0D10">
+  <title>Pavyaa Sri S — AI Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="description" content="Pavyaa Sri S — AI Full Stack Developer. Explore engineering stories in AI assessment, multilingual speech, marketing intelligence and education, with interactive project demos.">
+  <link rel="canonical" href="https://pavyaasri03.github.io/">
+  <meta property="og:title" content="Pavyaa Sri S — Engineering Stories">
+  <meta property="og:description" content="I build AI that works beyond the demo. Four engineering stories and four interactive project demos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pavyaasri03.github.io/">
+  <link rel="stylesheet" href="assets/portfolio.css">
+  <script src="portfolio.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#top">Skip to content</a>
+<div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+  <div class="min-h-screen bg-bgBase flex flex-col relative z-0">
 
-<!-- NAV -->
-<nav>
-  <a href="#home" class="nav-logo">PavyaaSri.</a>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#github">GitHub</a></li>
-    <li><a href="#certifications">Certifications</a></li>
-    <li><a href="#resume">Resume</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full border-b border-lines bg-bgBase/95 backdrop-blur-md">
+      <div class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk h-[72px] flex items-center justify-between">
+        <a href="#top" id="nav-home-link" class="font-medium text-lg tracking-tight hover:text-accent transition-colors">Pavyaa Sri S</a>
+        <nav id="desktop-nav" aria-label="Main navigation" class="hidden md:flex items-center gap-8 text-sm text-textSec font-medium">
+          <a href="#story" id="nav-story-link" class="hover:text-textMain transition-colors">Story</a>
+          <a href="#work" id="nav-work-link" class="hover:text-textMain transition-colors">Work</a>
+          <a href="#playground" id="nav-playground-link" class="hover:text-textMain transition-colors">Playground</a>
+          <a href="#contact" id="nav-contact-link" class="hover:text-textMain transition-colors">Contact</a>
+          <a href="output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf" id="nav-resume-link" target="_blank" rel="noopener noreferrer" class="ml-4 px-4 py-2 bg-accentWash text-accent border border-accent/20 rounded-std hover:bg-accent hover:text-bgBase transition-colors">Resume</a>
+        </nav>
+        <button id="mobile-menu-btn" type="button" class="md:hidden text-textMain p-2" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-2xl"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation" class="hidden md:hidden border-t border-lines bg-surface1 px-gutter-mob py-4 flex flex-col gap-4 text-sm text-textSec font-medium">
+        <a href="#story" id="mob-nav-story-link" class="hover:text-textMain transition-colors">Story</a>
+        <a href="#work" id="mob-nav-work-link" class="hover:text-textMain transition-colors">Work</a>
+        <a href="#playground" id="mob-nav-playground-link" class="hover:text-textMain transition-colors">Playground</a>
+        <a href="#contact" id="mob-nav-contact-link" class="hover:text-textMain transition-colors">Contact</a>
+        <a href="output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf" id="mob-nav-resume-link" target="_blank" rel="noopener noreferrer" class="mt-2 px-4 py-2 bg-accentWash text-accent border border-accent/20 rounded-std text-center">Resume</a>
+      </nav>
+    </header>
 
-<!-- ══ HOME ══ -->
-<section id="home" style="padding-top:80px; min-height:100vh; display:flex; flex-direction:column; justify-content:center;">
-  <div class="home-bg"></div>
-  <div class="home-eyebrow">AI Full-Stack Developer &nbsp;·&nbsp; Electronic City, Bangalore</div>
-  <div class="home-name">PavyaaSri S.</div>
-  <div class="home-name-sub">AI Full-Stack Developer</div>
-  <p class="home-title">MCA Graduate building production AI-integrated platforms — role-based B2B apps, AI-powered analytics dashboards, and multilingual media pipelines. Hands-on with React/Next.js, FastAPI, Django, and LLM integration (Claude, Gemini, Ollama).</p>
-  <div class="home-btns">
-    <a href="#projects" class="btn btn-gold">View My Work ↓</a>
-    <a href="#contact" class="btn btn-outline">Get In Touch</a>
-  </div>
-  <div class="status-dot">
-    <div class="dot"></div>
-    Open to opportunities · Bangalore
-  </div>
-</section>
-
-<!-- ══ ABOUT ══ -->
-<section id="about">
-  <div class="sec-label">01 — About</div>
-  <div class="sec-title">Background &amp; <span>Education</span></div>
-  <div class="sec-line"></div>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>I'm <b>PavyaaSri S</b>, an AI Full-Stack Developer at <b>ArivuPro</b>, where I build production platforms that combine full-stack engineering with applied AI — from role-based B2B systems to AI-powered analytics and multilingual media pipelines.</p>
-      <p>Based in <b>Electronic City, Bangalore</b>, I work across <b>React/Next.js, FastAPI, Django, and Node.js</b>, with hands-on LLM integration using the <b>Anthropic Claude API, Google Gemini, and self-hosted models via Ollama</b>.</p>
-      <p>I'm committed to <b>continuous learning, clean code practices</b>, and contributing positively to every engineering team I join — working effectively both independently and collaboratively with stakeholders.</p>
-      <div class="award">
-        <div class="award-icon">🏆</div>
-        <div class="award-text"><b>Best Student Award</b> — Mahindra Naandi Foundation<br>Recognized for Team Leadership Excellence</div>
-      </div>
-    </div>
-    <div class="fact-cards">
-      <div class="fact">
-        <div class="fact-label">Post Graduation</div>
-        <div class="fact-val">Master of Computer Applications (MCA)<small>Marudhar Kesari Jain College for Women, Vaniyambadi · 2023–2025</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">Under Graduation</div>
-        <div class="fact-val">B.Sc. Computer Science<small>Marudhar Kesari Jain College for Women, Vaniyambadi · 2020–2023</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">Current Role</div>
-        <div class="fact-val">AI Full-Stack Developer<small>ArivuPro Tech Team, Arivu Educational Consultants Pvt. Ltd. · since May 2026</small></div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">Career Objective</div>
-        <div class="fact-val">Grow as an AI-native full-stack engineer, shipping products that combine solid systems engineering with applied LLM integration</div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">Areas of Interest</div>
-        <div class="fact-val">AI/LLM Integration · Full-Stack Web · Database Architecture · Applied Machine Learning</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ SKILLS ══ -->
-<section id="skills">
-  <div class="sec-label">02 — Skills</div>
-  <div class="sec-title">Technical <span>Expertise</span></div>
-  <div class="sec-line"></div>
-  <div class="skills-grid">
-    <div class="skill-box">
-      <div class="skill-box-head">
-        <div class="skill-icon">⟨/⟩</div>
-        <div class="skill-box-name">Programming Languages</div>
-      </div>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">HTML5</span>
-        <span class="tag">CSS3</span>
-        <span class="tag">SQL</span>
-        <span class="tag">PHP</span>
-      </div>
-    </div>
-    <div class="skill-box">
-      <div class="skill-box-head">
-        <div class="skill-icon">⚙</div>
-        <div class="skill-box-name">Frameworks &amp; Tools</div>
-      </div>
-      <div class="tags">
-        <span class="tag">React.js</span>
-        <span class="tag">Next.js</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">Django</span>
-        <span class="tag">Node.js</span>
-        <span class="tag">GSAP</span>
-        <span class="tag">Git</span>
-        <span class="tag">GitHub Actions</span>
-      </div>
-    </div>
-    <div class="skill-box">
-      <div class="skill-box-head">
-        <div class="skill-icon">✨</div>
-        <div class="skill-box-name">AI / LLM Integration</div>
-      </div>
-      <div class="tags">
-        <span class="tag">Anthropic Claude API</span>
-        <span class="tag">Google Gemini 2.5</span>
-        <span class="tag">Ollama (local LLM)</span>
-        <span class="tag">Prompt Engineering</span>
-        <span class="tag">TTS Pipelines</span>
-      </div>
-    </div>
-    <div class="skill-box">
-      <div class="skill-box-head">
-        <div class="skill-icon">🗄</div>
-        <div class="skill-box-name">Databases</div>
-      </div>
-      <div class="tags">
-        <span class="tag">Supabase (PostgreSQL)</span>
-        <span class="tag">Firestore</span>
-        <span class="tag">MySQL</span>
-        <span class="tag">MongoDB</span>
-      </div>
-    </div>
-    <div class="skill-box">
-      <div class="skill-box-head">
-        <div class="skill-icon">💡</div>
-        <div class="skill-box-name">Concepts &amp; Methods</div>
-      </div>
-      <div class="tags">
-        <span class="tag">OOP</span>
-        <span class="tag">DSA</span>
-        <span class="tag">SDLC</span>
-        <span class="tag">Agile</span>
-        <span class="tag">REST APIs</span>
-        <span class="tag">Debugging</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ PROJECTS ══ -->
-<section id="projects">
-  <div class="sec-label">03 — Projects</div>
-  <div class="sec-title">Featured <span>Work</span></div>
-  <div class="sec-line"></div>
-  <div class="projects-list">
-
-    <!-- Project 1 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">01 / 06</div>
-        <span class="proj-badge badge-gold">Production · ArivuPro</span>
-        <div class="proj-name">ArivuTracker — B2B Attendance &amp; Academic Platform</div>
-        <p class="proj-desc">Role-based platform for students, faculty, and super-admins. Built animated authentication (GSAP), a Haversine-formula geofencing system for on-site attendance verification, a full weekly timetable engine with class-overlap detection, marks management, and Supabase RLS migrations.</p>
-        <div class="proj-pills">
-          <span class="pill">Next.js</span>
-          <span class="pill">React</span>
-          <span class="pill">Supabase</span>
-          <span class="pill">PostgreSQL / RLS</span>
-          <span class="pill">GSAP</span>
+    <!-- Hero Section -->
+    <main id="top" tabindex="-1" class="flex-1">
+      <section class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-mob md:py-section-desk grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="font-mono text-xs text-accent tracking-widest uppercase mb-6">AI Full Stack Developer / Bengaluru</p>
+          <h1 class="hero-title text-[42px] md:text-[76px] lg:text-[96px] font-semibold leading-[1.02] tracking-tight mb-8 text-textMain">
+            I build AI that works beyond the demo.
+          </h1>
+          <div class="text-textSec text-base md:text-lg leading-relaxed mb-10 space-y-4 max-w-xl">
+            <p>I build assessment tools, multilingual speech workflows, and practical software for education and marketing — from the first interface to the checks behind the model.</p>
+            <p class="text-sm border-l-2 border-lines pl-4">Currently at <strong class="text-textMain font-medium">Arivu Educational Consultants Pvt. Ltd. (ArivuPro)</strong><br><span class="font-mono text-xs text-muted mt-1 inline-block">May 2026 — Present</span></p>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#story" id="hero-story-btn" class="inline-flex items-center justify-center px-6 py-3 bg-accent text-bgBase font-medium rounded-std hover:bg-[#E5C78D] transition-colors min-w-[140px]">Explore the story</a>
+            <a href="output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf" id="hero-resume-btn" download target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 border border-lines text-textMain font-medium rounded-std hover:bg-surface1 transition-colors min-w-[140px]">Download resume</a>
+          </div>
         </div>
-      </div>
-      <div class="proj-num-big">01</div>
-    </div>
+        <div class="relative bg-surface1 border border-lines rounded-lg p-8 h-full min-h-[400px] flex flex-col justify-between">
+           <div class="font-mono text-[11px] text-muted flex justify-between mb-8">
+             <span>FROM INPUT TO IMPACT</span>
+             <span>01—03</span>
+           </div>
+           <div class="relative flex-1 flex flex-col justify-around py-4">
+             <!-- Conceptual flow lines -->
+             <div class="absolute left-[24px] top-[40px] bottom-[40px] w-px bg-lines"></div>
 
-    <!-- Project 2 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">02 / 06</div>
-        <span class="proj-badge badge-gold">Production · ArivuPro</span>
-        <div class="proj-name">Social Listening Dashboard — AI Brand Monitoring</div>
-        <p class="proj-desc">AI-powered brand-monitoring system replacing manual tracking across 10+ platforms (Reddit, YouTube, Twitter/X, Instagram, Google News, Quora). Uses Gemini for real-time sentiment/relevance classification, with a reply-queue engine, competitor tracking across 4 brands, an AI insights module, and a Firestore caching layer that cuts redundant API cost.</p>
-        <div class="proj-pills">
-          <span class="pill">React</span>
-          <span class="pill">Gemini API</span>
-          <span class="pill">Firestore</span>
-          <span class="pill">REST APIs</span>
+             <div class="relative pl-12">
+               <div class="absolute left-[20px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-techHighlight"></div>
+               <div class="absolute left-[24px] top-1/2 -translate-y-1/2 w-8 h-px bg-lines"></div>
+               <button type="button" class="pipeline-step text-lg font-medium text-textMain" data-stage="0" aria-pressed="true">Source</button>
+               <p class="font-mono text-xs text-muted mt-1">Clean extraction & parsing</p>
+             </div>
+             <div class="relative pl-12">
+               <div class="absolute left-[20px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-accent"></div>
+               <div class="absolute left-[24px] top-1/2 -translate-y-1/2 w-8 h-px bg-lines"></div>
+               <button type="button" class="pipeline-step text-lg font-medium text-textMain" data-stage="1" aria-pressed="false">Model &amp; Validation</button>
+               <p class="font-mono text-xs text-muted mt-1">Grounded generation & tests</p>
+             </div>
+             <div class="relative pl-12">
+               <div class="absolute left-[20px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-success"></div>
+               <div class="absolute left-[24px] top-1/2 -translate-y-1/2 w-8 h-px bg-lines"></div>
+               <button type="button" class="pipeline-step text-lg font-medium text-textMain" data-stage="2" aria-pressed="false">Product</button>
+               <p class="font-mono text-xs text-muted mt-1">Usable human interfaces</p>
+             </div>
+           </div>
+          <p class="pipeline-explanation" id="pipeline-explanation" aria-live="polite">A useful AI result starts with faithfully extracting and preserving the source.</p>
         </div>
-      </div>
-      <div class="proj-num-big">02</div>
-    </div>
+      </section>
 
-    <!-- Project 3 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">03 / 06</div>
-        <span class="proj-badge badge-gold">Production · ArivuPro</span>
-        <div class="proj-name">LingoCut — Multilingual Video Dubbing Pipeline</div>
-        <p class="proj-desc">End-to-end pipeline (FastAPI + FFmpeg + Gemini) that turns English video/audio into colloquial Tamil, Hindi, Telugu, Kannada, and Malayalam dubs. Delivered 3 iterations — from a 3rd-party avatar API to a self-hosted local LLM (Ollama qwen2.5:7b + edge-TTS) — after benchmarking 5 vendors and catching a public documentation discrepancy in ElevenLabs' language support.</p>
-        <div class="proj-pills">
-          <span class="pill">FastAPI</span>
-          <span class="pill">FFmpeg</span>
-          <span class="pill">Gemini 2.5</span>
-          <span class="pill">Ollama</span>
+      <!-- Chapter 01: The Work (Scope) -->
+      <section id="story" class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-mob md:py-section-desk border-t border-lines">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div class="md:col-span-1">
+            <div class="story-nav-sticky font-mono text-xs">
+              <span class="text-accent mb-4 block">Chapter 01</span>
+              <h2 class="text-2xl font-medium text-textMain font-sans mb-6">The work</h2>
+              <p class="text-textSec mb-4">Engineering around the model.</p>
+            </div>
+          </div>
+          <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="bg-surface1 border border-lines p-6 rounded-lg">
+              <div class="text-3xl font-light text-accent mb-2">98</div>
+              <div class="font-mono text-[11px] text-muted mb-2">PAGE DOCUMENT</div>
+              <p class="text-sm text-textSec">Validated chunked extraction and generation workflow.</p>
+            </div>
+            <div class="bg-surface1 border border-lines p-6 rounded-lg">
+              <div class="text-3xl font-light text-accent mb-2">12</div>
+              <div class="font-mono text-[11px] text-muted mb-2">DIALECTS</div>
+              <p class="text-sm text-textSec">Code-switched audio fitting and editable translations.</p>
+            </div>
+            <div class="bg-surface1 border border-lines p-6 rounded-lg">
+              <div class="text-3xl font-light text-accent mb-2">8+</div>
+              <div class="font-mono text-[11px] text-muted mb-2">LISTENING SOURCES</div>
+              <p class="text-sm text-textSec">Sentiment classification and fact-grounded reply drafts.</p>
+            </div>
+            <div class="bg-surface1 border border-lines p-6 rounded-lg">
+              <div class="text-3xl font-light text-accent mb-2">3</div>
+              <div class="font-mono text-[11px] text-muted mb-2">ROLES SCHEDULED</div>
+              <p class="text-sm text-textSec">Weekly timetable assignment with overlap detection.</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="proj-num-big">03</div>
-    </div>
+      </section>
 
-    <!-- Project 4 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">04 / 06</div>
-        <span class="proj-badge badge-blue">Client Project · One Commerce Academy</span>
-        <div class="proj-name">AI Answer Sheet Evaluation System</div>
-        <p class="proj-desc">Full-stack AI evaluation tool integrating Anthropic Claude's vision API to analyze handwritten/printed answer sheets and auto-generate structured marks, feedback, and improvement tips per question. Multi-page React frontend (upload flow, results dashboard, per-student score tracking) deployed on Vercel, backed by a FastAPI service for image preprocessing and batch orchestration.</p>
-        <div class="proj-pills">
-          <span class="pill">React</span>
-          <span class="pill">FastAPI</span>
-          <span class="pill">Claude Vision API</span>
-          <span class="pill">Vercel</span>
+      <!-- Chapter 02: Engineering Stories -->
+      <section id="work" class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-mob md:py-section-desk border-t border-lines">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div class="md:col-span-1">
+            <div class="story-nav-sticky font-mono text-xs">
+              <span class="text-accent mb-4 block">Chapter 02</span>
+              <h2 class="text-2xl font-medium text-textMain font-sans mb-6">Engineering stories</h2>
+              <p class="text-textSec mb-4">The reality of production.</p>
+<nav class="chapter-nav" aria-label="Engineering stories"><a href="#quiz-platform">01 / AI assessment</a><a href="#lingocut">02 / Multilingual speech</a><a href="#marketinsight">03 / Marketing intelligence</a><a href="#smart-attendance">04 / Academic operations</a></nav>
+            </div>
+          </div>
+          <div class="md:col-span-3 space-y-16">
+            <!-- Story 1 -->
+            <article id="quiz-platform" class="case-study bg-surface1 border border-lines rounded-lg p-8">
+              <div class="flex items-center gap-4 mb-4 font-mono text-xs text-muted">
+                <span>01</span>
+                <div class="w-4 h-px bg-lines"></div>
+                <span>ArivuPro AI Quiz Platform</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-medium text-textMain mb-4">From study material to a reviewed quiz</h3>
+              <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Next.js</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">FastAPI</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">DeepSeek / Gemini</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">PostgreSQL</span>
+              </div>
+              <div class="space-y-4">
+                <details class="group border-t border-lines pt-4" open>
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    PROBLEM <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Turning raw 98-page study documents into an exam-ready quiz required safely chunking extraction without losing context or hallucinating ungrounded facts.</p>
+                </details>
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    APPROACH <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Implemented chunked map-reduce extraction, followed by generation, verification, and repair loops. Bounded AI descriptive grading with deterministic objective grading.</p>
+                </details>
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    OUTCOME <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Delivered a fully tenant-scoped querying system with isolation tests, featuring teacher review workflows to ensure quality before release.</p>
+                </details>
+              </div>
+            </article>
+            <!-- Story 2 -->
+            <article id="lingocut" class="case-study bg-surface1 border border-lines rounded-lg p-8">
+              <div class="flex items-center gap-4 mb-4 font-mono text-xs text-muted">
+                <span>02</span>
+                <div class="w-4 h-px bg-lines"></div>
+                <span>LingoCut</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-medium text-textMain mb-4">English lectures into colloquial video</h3>
+              <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Gemini Live/TTS</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">FFmpeg</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Node.js</span>
+              </div>
+              <div class="space-y-4">
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    PROBLEM <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Long lecture dubs need recoverable processing and segment timing that keeps translated audio aligned with the video.</p>
+                </details>
+                <details class="group border-t border-lines pt-4" open>
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    APPROACH <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Used FFmpeg time fitting, implemented retries/checkpoints, and added editable translations. Missing speech was traced to a lossy sentence parser utilizing round-trip transcription checks.</p>
+                </details>
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    OUTCOME <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Built dubbing and editable voiceover workflows supporting 12 code-switched dialects, with segment-level timing and checkpointed processing.</p>
+                </details>
+              </div>
+            </article>
+            <!-- Story 3 -->
+            <article id="marketinsight" class="case-study bg-surface1 border border-lines rounded-lg p-8">
+              <div class="flex items-center gap-4 mb-4 font-mono text-xs text-muted">
+                <span>03</span>
+                <div class="w-4 h-px bg-lines"></div>
+                <span>MarketInsight Pro</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-medium text-textMain mb-4">Turn scattered mentions into useful context</h3>
+              <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">React / TypeScript</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Firestore</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Groq / Gemini / Claude</span>
+              </div>
+              <div class="space-y-4">
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    PROBLEM <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Mentions across 8+ sources had different formats, quotas and failure modes; ambiguous keywords also produced irrelevant results.</p>
+                </details>
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    APPROACH <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Orchestrated multiple LLMs for sentiment classification. Built fact-grounded reply drafts with a human review step, and implemented per-source failure reporting.</p>
+                </details>
+                <details class="group border-t border-lines pt-4" open>
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    OUTCOME <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Achieved daily trend rollups and reliable API proxies, turning noisy social data into structured marketing intelligence.</p>
+                </details>
+              </div>
+            </article>
+            <!-- Story 4 -->
+            <article id="smart-attendance" class="case-study bg-surface1 border border-lines rounded-lg p-8">
+              <div class="flex items-center gap-4 mb-4 font-mono text-xs text-muted">
+                <span>04</span>
+                <div class="w-4 h-px bg-lines"></div>
+                <span>Smart Attendance</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-medium text-textMain mb-4">Less admin between people and classes</h3>
+              <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Next.js</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">TypeScript</span>
+                <span class="px-3 py-1 border border-lines rounded text-xs text-textSec font-mono">Supabase / PostgreSQL</span>
+              </div>
+              <div class="space-y-4">
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    PROBLEM <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Faculty needed self-onboarding and assignment to existing timetables. Scheduling required conflict checks, and a face-capture failure blocked onboarding.</p>
+                </details>
+                <details class="group border-t border-lines pt-4">
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    APPROACH <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Implemented faculty self-onboarding with retroactive timetable assignment, strict overlap detection, and fixed the root cause of face-capture failures.</p>
+                </details>
+                <details class="group border-t border-lines pt-4" open>
+                  <summary class="cursor-pointer flex justify-between items-center font-mono text-xs text-textMain focus:outline-none focus:ring-2 focus:ring-techHighlight rounded">
+                    OUTCOME <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-open:hidden"><path d="M12 5v14M5 12h14"/></svg><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted hidden group-open:block"><path d="M5 12h14"/></svg>
+                  </summary>
+                  <p class="text-sm text-textSec leading-relaxed mt-4 pb-4">Delivered responsive dashboards and weekly scheduling for faculty, students and super-admins, with overlap detection to prevent double-booked slots.</p>
+                </details>
+              </div>
+            </article>
+          </div>
         </div>
-        <div class="proj-links">
-          <a href="ai-evaluator-demo.html" class="proj-link demo">▶ Live Demo</a>
-        </div>
-      </div>
-      <div class="proj-num-big">04</div>
-    </div>
+      </section>
 
-    <!-- Project 5 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">05 / 06</div>
-        <span class="proj-badge badge-green">Academic Project</span>
-        <div class="proj-name">Biometric Voting System</div>
-        <p class="proj-desc">A secure digital voting platform that eliminates fake votes by integrating fingerprint authentication with Aadhaar-based verification. Built with Node.js and MongoDB for biometric data storage — ensuring tamper-proof vote recording and real-time verification.</p>
-        <div class="proj-pills">
-          <span class="pill">JavaScript</span>
-          <span class="pill">Node.js</span>
-          <span class="pill">MongoDB</span>
-          <span class="pill">Biometric API</span>
+      <!-- Chapter 03: Playground -->
+      <section id="playground" class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-mob md:py-section-desk border-t border-lines">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div class="md:col-span-1">
+            <div class="story-nav-sticky font-mono text-xs">
+              <span class="text-accent mb-4 block">Chapter 03</span>
+              <h2 class="text-2xl font-medium text-textMain font-sans mb-6">Try the thinking</h2>
+              <p class="text-textSec mb-4">Explore earlier client and academic projects through interactive browser demos with sample data.</p>
+            </div>
+          </div>
+          <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <a href="ai-evaluator-demo.html" id="demo-evaluator-link" class="demo-link group block bg-surface1 border border-lines p-8 rounded-lg hover:border-accent transition-colors">
+              <div class="flex justify-between items-start mb-12">
+                <h3 class="text-lg font-medium text-textMain">AI Answer Evaluator</h3>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-hover:text-accent transition-colors"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </div>
+              <p class="text-sm text-textSec">Compare a sample response against a transparent keyword rubric.</p>
+            </a>
+            <a href="biometric-voting-demo.html" id="demo-voting-link" class="demo-link group block bg-surface1 border border-lines p-8 rounded-lg hover:border-accent transition-colors">
+              <div class="flex justify-between items-start mb-12">
+                <h3 class="text-lg font-medium text-textMain">Biometric Voting</h3>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-hover:text-accent transition-colors"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </div>
+              <p class="text-sm text-textSec">Complete a simulated verification and ballot workflow.</p>
+            </a>
+            <a href="lms-demo.html" id="demo-lms-link" class="demo-link group block bg-surface1 border border-lines p-8 rounded-lg hover:border-accent transition-colors">
+              <div class="flex justify-between items-start mb-12">
+                <h3 class="text-lg font-medium text-textMain">Learning Management</h3>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-hover:text-accent transition-colors"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </div>
+              <p class="text-sm text-textSec">Submit coursework as a student, then review it as faculty.</p>
+            </a>
+            <a href="complaint-system-demo.html" id="demo-complaint-link" class="demo-link group block bg-surface1 border border-lines p-8 rounded-lg hover:border-accent transition-colors">
+              <div class="flex justify-between items-start mb-12">
+                <h3 class="text-lg font-medium text-textMain">Complaint Tracking</h3>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon text-muted group-hover:text-accent transition-colors"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </div>
+              <p class="text-sm text-textSec">Register and track a sample ticket state.</p>
+            </a>
+          </div>
         </div>
-        <div class="proj-links">
-          <a href="biometric-voting-demo.html" class="proj-link demo">▶ Live Demo</a>
-          <a href="https://github.com/pavyaasri03/biometric-voting-system" class="proj-link" target="_blank">⌥ GitHub Repo</a>
-        </div>
-      </div>
-      <div class="proj-num-big">05</div>
-    </div>
+      </section>
 
-    <!-- Project 6 -->
-    <div class="project">
-      <div>
-        <div class="proj-num">06 / 06</div>
-        <span class="proj-badge badge-green">Academic Project</span>
-        <div class="proj-name">Online Complaint Registration System</div>
-        <p class="proj-desc">A web-based complaint management platform allowing citizens to register, track, and resolve complaints online. Features role-based access, real-time status tracking with a timeline view, and a clean responsive interface built on Django's MVT architecture.</p>
-        <div class="proj-pills">
-          <span class="pill">Python</span>
-          <span class="pill">Django</span>
-          <span class="pill">MySQL</span>
+      <!-- Chapter 04: Foundation -->
+      <section id="foundation" class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-mob md:py-section-desk border-t border-lines">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div class="md:col-span-1">
+            <div class="story-nav-sticky font-mono text-xs">
+              <span class="text-accent mb-4 block">Chapter 04</span>
+              <h2 class="text-2xl font-medium text-textMain font-sans mb-6">Foundation</h2>
+              <p class="text-textSec mb-4">Skills and background.</p>
+            </div>
+          </div>
+          <div class="md:col-span-3 space-y-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
+              <div>
+                <h3 class="font-mono text-xs text-textMain mb-4 pb-2 border-b border-lines">01 / CODE</h3>
+                <p class="text-sm text-textSec leading-relaxed">Python, TypeScript, JavaScript, SQL, HTML, CSS</p>
+              </div>
+              <div>
+                <h3 class="font-mono text-xs text-textMain mb-4 pb-2 border-b border-lines">02 / APPLICATIONS</h3>
+                <p class="text-sm text-textSec leading-relaxed">React, Next.js, FastAPI, Node.js / Express, Django</p>
+              </div>
+              <div>
+                <h3 class="font-mono text-xs text-textMain mb-4 pb-2 border-b border-lines">03 / AI & INTEGRATION</h3>
+                <p class="text-sm text-textSec leading-relaxed">Gemini, DeepSeek, Claude, Groq, LLM orchestration, Source grounding, Speech pipelines</p>
+              </div>
+              <div>
+                <h3 class="font-mono text-xs text-textMain mb-4 pb-2 border-b border-lines">04 / DATA & DELIVERY</h3>
+                <p class="text-sm text-textSec leading-relaxed">PostgreSQL / Supabase, Firebase / Firestore, MySQL, MongoDB, Railway, Vercel</p>
+              </div>
+            </div>
+            <div class="bg-surface1 border border-lines p-8 rounded-lg">
+              <h3 class="font-mono text-xs text-accent mb-6 uppercase">Education & Accolades</h3>
+              <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-lines pb-6">
+                  <div>
+                    <h4 class="text-textMain font-medium">Master of Computer Applications</h4>
+                    <p class="text-sm text-textSec mt-1">Marudhar Kesari Jain College for Women · 2023–2025</p>
+                  </div>
+                  <div class="font-mono text-sm text-techHighlight">CGPA 9.67/10</div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-lines pb-6">
+                  <div>
+                    <h4 class="text-textMain font-medium">B.Sc. Computer Science</h4>
+                    <p class="text-sm text-textSec mt-1">Marudhar Kesari Jain College for Women · 2020–2023</p>
+                  </div>
+                  <div class="font-mono text-sm text-techHighlight">CGPA 9.0/10</div>
+                </div>
+                <div class="flex flex-wrap gap-4 pt-2">
+                  <span class="px-3 py-1 bg-surface2 border border-lines rounded text-xs text-textSec font-mono">NPTEL DBMS</span>
+                  <span class="px-3 py-1 bg-surface2 border border-lines rounded text-xs text-textSec font-mono text-accent">Best Student Award (Mahindra Naandi)</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="proj-links">
-          <a href="complaint-system-demo.html" class="proj-link demo">▶ Live Demo</a>
-          <a href="https://github.com/pavyaasri03/online-complaint-registration" class="proj-link" target="_blank">⌥ GitHub Repo</a>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk py-section-desk border-t border-lines">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <p class="font-mono text-xs text-accent uppercase mb-4">Have a problem worth solving?</p>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-medium text-textMain mb-8 leading-tight tracking-tight">
+              Let's make something useful.
+            </h2>
+            <a href="mailto:pavyaasris@gmail.com" id="contact-email-btn" class="inline-flex items-center justify-center px-8 py-4 bg-accent text-bgBase font-medium rounded-std hover:bg-[#E5C78D] transition-colors">
+              pavyaasris@gmail.com <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon ml-2"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
+            </a>
+          </div>
+          <div class="flex flex-col gap-6 md:pl-12">
+            <a href="https://github.com/pavyaasri03" id="contact-github-link" target="_blank" rel="noopener noreferrer" class="flex justify-between items-center pb-4 border-b border-lines text-textSec hover:text-textMain transition-colors">
+              <span>github.com/pavyaasri03</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon "><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/pavyaa-sri-s-5024b23a7" id="contact-linkedin-link" target="_blank" rel="noopener noreferrer" class="flex justify-between items-center pb-4 border-b border-lines text-textSec hover:text-textMain transition-colors">
+              <span>linkedin.com/in/pavyaa-sri-s</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon "><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7"/></svg>
+            </a>
+            <a href="tel:+919150766362" id="contact-phone-link" class="flex justify-between items-center pb-4 border-b border-lines text-textSec hover:text-textMain transition-colors">
+              <span>+91 91507 66362</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon "><path d="m7 3 3 5-3 3 6 6 3-3 5 3-1 4C11 22 2 13 3 4Z"/></svg>
+            </a>
+            <a href="output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf" id="contact-resume-link" download target="_blank" rel="noopener noreferrer" class="flex justify-between items-center pb-4 border-b border-lines text-accent hover:text-[#E5C78D] transition-colors">
+              <span>Download Résumé</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-icon "><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>
+            </a>
+          </div>
         </div>
+      </section>
+
+    </main>
+
+    <noscript><style>#mobile-nav { display: flex; } #mobile-menu-btn { display: none; }</style></noscript>
+    <!-- Footer -->
+    <footer class="border-t border-lines bg-surface1 py-8 z-10">
+      <div class="max-w-content mx-auto w-full px-gutter-mob md:px-gutter-desk flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[11px] text-muted">
+        <div>Pavyaa Sri S &copy; <span id="current-year">2026</span></div>
+        <a href="#top" id="footer-top-link" class="hover:text-accent transition-colors">Back to top &uarr;</a>
       </div>
-      <div class="proj-num-big">06</div>
-    </div>
+    </footer>
 
   </div>
-</section>
-
-<!-- ══ GITHUB ══ -->
-<section id="github">
-  <div class="sec-label">04 — GitHub</div>
-  <div class="sec-title">Open Source &amp; <span>Repositories</span></div>
-  <div class="sec-line"></div>
-  <div class="github-card">
-    <div class="github-top">
-      <div class="github-avatar">👩‍💻</div>
-      <div class="github-info">
-        <h3>github.com/<span>pavyaasri03</span></h3>
-        <p>Explore my repositories and projects. I maintain clean, well-documented code as part of my development practice.</p>
-        <a href="https://github.com/pavyaasri03" target="_blank" class="btn btn-gold" style="margin-top:1rem;display:inline-flex;">Visit GitHub Profile ↗</a>
-      </div>
-    </div>
-    <div class="repos-grid">
-      <div class="repo">
-        <div class="repo-name">📁 biometric-voting-system</div>
-        <div class="repo-desc">Secure fingerprint + Aadhaar-based digital voting platform</div>
-        <div class="repo-lang"><span class="lang-dot" style="background:#f1e05a;"></span>JavaScript / Node.js</div>
-      </div>
-      <div class="repo">
-        <div class="repo-name">📁 learning-management-system</div>
-        <div class="repo-desc">Moodle-based institutional LMS — live in production</div>
-        <div class="repo-lang"><span class="lang-dot" style="background:#4F5D95;"></span>PHP / MySQL</div>
-      </div>
-      <div class="repo">
-        <div class="repo-name">📁 online-complaint-registration</div>
-        <div class="repo-desc">Web-based complaint tracking &amp; management system</div>
-        <div class="repo-lang"><span class="lang-dot" style="background:#3572A5;"></span>Python / Django</div>
-      </div>
-      <div class="repo">
-        <div class="repo-name">📁 python-practice</div>
-        <div class="repo-desc">DSA &amp; Python problem-solving practice repository</div>
-        <div class="repo-lang"><span class="lang-dot" style="background:#3572A5;"></span>Python</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CERTIFICATIONS ══ -->
-<section id="certifications">
-  <div class="sec-label">05 — Certifications</div>
-  <div class="sec-title">Courses &amp; <span>Achievements</span></div>
-  <div class="sec-line"></div>
-  <div style="display:flex; flex-direction:column; gap:1rem;">
-    <div class="cert-card">
-      <div class="cert-ico">🎓</div>
-      <div>
-        <div class="cert-name">Database Management Systems (DBMS)</div>
-        <div class="cert-issuer">NPTEL &nbsp;·&nbsp; IIT Faculty &nbsp;·&nbsp; Ministry of Education, Government of India</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-ico">🤖</div>
-      <div>
-        <div class="cert-name">Machine Learning — Industry Internship</div>
-        <div class="cert-issuer">30-Day Industry Training Program &nbsp;·&nbsp; Python, Data Preprocessing, ML Algorithms</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-ico">🌐</div>
-      <div>
-        <div class="cert-name">Web Development — Industry Internship</div>
-        <div class="cert-issuer">15-Day Industry Training Program &nbsp;·&nbsp; HTML5, CSS3, JavaScript, Responsive Design</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ RESUME ══ -->
-<section id="resume">
-  <div class="sec-label">06 — Resume</div>
-  <div class="sec-title">Download <span>Resume</span></div>
-  <div class="sec-line"></div>
-  <div class="resume-card">
-    <div class="resume-info">
-      <h3>PavyaaSri S — Resume</h3>
-      <p>Complete overview of my education, skills, projects, internships, and achievements — ATS-optimized and ready for review.</p>
-      <div class="resume-hls">
-        <div class="resume-hl">AI Full-Stack Developer · ArivuPro Tech Team</div>
-        <div class="resume-hl">React/Next.js · FastAPI · Django · Claude &amp; Gemini API Integration</div>
-        <div class="resume-hl">3 Concurrent Production Projects · MCA (9.67 CGPA)</div>
-        <div class="resume-hl">Best Student Award · Mahindra Naandi Foundation</div>
-      </div>
-    </div>
-    <a href="PavyaaSri_Resume.docx" download class="dl-btn">
-      <div class="dl-box">⬇</div>
-      <div class="dl-label">Download PDF</div>
-    </a>
-  </div>
-</section>
-
-<!-- ══ CONTACT ══ -->
-<section id="contact">
-  <div class="sec-label">07 — Contact</div>
-  <div class="sec-title">Get In <span>Touch</span></div>
-  <div class="sec-line"></div>
-  <div class="contact-grid">
-    <div>
-      <p class="contact-intro">I'm always open to discussing new opportunities, collaborations, or projects. Feel free to reach out — I'd love to connect!</p>
-      <div class="contact-items">
-        <a href="mailto:pavyaasris@gmail.com" class="contact-item">
-          <div class="c-ico">✉</div>
-          <div><div class="c-lbl">Email</div><div class="c-val">pavyaasris@gmail.com</div></div>
-        </a>
-        <a href="https://www.linkedin.com/in/pavyaa-sri-s-5024b23a7" target="_blank" class="contact-item">
-          <div class="c-ico">in</div>
-          <div><div class="c-lbl">LinkedIn</div><div class="c-val">linkedin.com/in/pavyaa-sri-s</div></div>
-        </a>
-        <a href="https://github.com/pavyaasri03" target="_blank" class="contact-item">
-          <div class="c-ico">🐙</div>
-          <div><div class="c-lbl">GitHub</div><div class="c-val">github.com/pavyaasri03</div></div>
-        </a>
-        <a href="tel:+919150766362" class="contact-item">
-          <div class="c-ico">📞</div>
-          <div><div class="c-lbl">Phone</div><div class="c-val">+91 9150766362</div></div>
-        </a>
-      </div>
-    </div>
-    <div class="contact-form">
-      <div>
-        <label class="f-label">Your Name</label>
-        <input type="text" class="f-input" placeholder="John Doe">
-      </div>
-      <div>
-        <label class="f-label">Email Address</label>
-        <input type="email" class="f-input" placeholder="hello@email.com">
-      </div>
-      <div>
-        <label class="f-label">Message</label>
-        <textarea class="f-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
-      </div>
-      <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="alert('Form submitted! I will get back to you soon.')">Send Message →</button>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 <span>PavyaaSri S</span> &nbsp;·&nbsp; AI Full-Stack Developer, Bangalore &nbsp;·&nbsp; Built with <span>♥</span> &nbsp;·&nbsp; Hosted on <span>GitHub Pages</span></p>
-</footer>
-
-<script>
-// Active nav highlight on scroll
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 100) current = s.id;
-  });
-  navLinks.forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
-  });
-});
-</script>
-
 </body>
 </html>

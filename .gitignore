@@ -1,0 +1,14 @@
+# Local editor files
+.vscode/
+.DS_Store
+Thumbs.db
+.venv/
+tmp/
+__pycache__/
+docs/
+.superdesign/tmp/
+.superdesign/
+node_modules/
+test-results/
+playwright-report/
+dist/

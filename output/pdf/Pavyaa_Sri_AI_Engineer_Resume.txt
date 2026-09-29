@@ -1,0 +1,61 @@
+PAVYAA SRI S
+
+AI FULL STACK DEVELOPER | GENERATIVE AI APPLICATIONS
+
+Bengaluru, India | +91 91507 66362 | pavyaasris@gmail.com
+
+pavyaasri03.github.io | github.com/pavyaasri03 | LinkedIn: pavyaa-sri-s-5024b23a7
+
+PROFESSIONAL SUMMARY
+
+AI Full Stack Developer building production generative AI applications for education and marketing. Hands-on experience with LLM orchestration, document processing, AI grading and multilingual speech pipelines, backed by Python, TypeScript and full-stack delivery.
+
+TECHNICAL SKILLS
+
+Languages: Python, TypeScript, JavaScript, SQL
+
+AI engineering: LLM orchestration, prompt engineering, source grounding, output validation, OCR, speech-to-text, text-to-speech; Gemini, DeepSeek, Claude, Groq
+
+Applications & data: React, Next.js, FastAPI, Node.js, Express, Django, PostgreSQL, Supabase, Firebase/Firestore, MongoDB, MySQL
+
+Testing & delivery: pytest, Vitest, Git, GitHub Actions, Railway, Vercel, FFmpeg, REST APIs, tenant isolation
+
+WORK EXPERIENCE
+
+AI Full Stack Developer | Arivu Educational Consultants Pvt. Ltd. (ArivuPro)
+
+Bengaluru, India | May 2026 - Present
+
+- AI assessment: Built a document-to-quiz pipeline with chunked extraction, LLM generation, verification and repair, teacher review, and publishing; validated large-document processing on a 98-page source.
+
+- Grading & isolation: Implemented deterministic objective scoring and model-answer-based AI grading for descriptive responses; enforced tenant-scoped queries with isolation regression tests.
+
+- Multilingual speech: Built LingoCut dubbing and script-to-voiceover workflows for 12 code-switched dialects using Gemini and FFmpeg, with segment timing, retries and checkpointed processing.
+
+- AI reliability: Traced missing voiceover sentences to text segmentation; replaced a lossy parser and verified text retention with automated TTS-to-transcription round-trip checks.
+
+- Marketing intelligence: Shipped MarketInsight Pro with social listening across 8+ sources, LLM sentiment/relevance classification, fact-grounded reply drafts and human review; added retry/backoff and historical analytics.
+
+- Academic platform: Delivered faculty self-onboarding, retroactive class assignment and timetable scheduling for three user roles, including overlap detection, API routes and database changes.
+
+- Production delivery: Resolved quiz-start failures caused by response-model and query mismatches; used feature flags, regression tests and server-side API proxies to support reliable releases.
+
+SELECTED PROJECTS
+
+AI Answer Sheet Evaluation | React, FastAPI, Claude VisionBuilt image preprocessing and model orchestration for handwritten/printed answer evaluation, with question-level marks, feedback and a student results dashboard.
+
+Biometric Voting System | Node.js, MongoDBDeveloped fingerprint-based voter verification and modular REST APIs; tested input validation and duplicate-vote prevention.
+
+Institutional LMS | Moodle, PHP, MySQLCollaboratively customized and deployed a Moodle LMS for departmental assignments, resource sharing and student/faculty profiles.
+
+Complaint Registration System | Django, MySQLBuilt authenticated CRUD workflows with form validation, modular views and reusable templates.
+
+EDUCATION
+
+Master of Computer Applications | 2023 - 2025 | CGPA: 9.67/10Marudhar Kesari Jain College for Women, Vaniyambadi
+
+B.Sc. Computer Science | 2020 - 2023 | CGPA: 9.0/10Marudhar Kesari Jain College for Women, Vaniyambadi
+
+TRAINING & ACHIEVEMENTS
+
+Machine Learning Internship (30 days): Python, preprocessing, supervised ML.NPTEL: Database Management Systems | Best Student Award: Mahindra Naandi Foundation

@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-padding-top: 96px; color-scheme: dark; }
+body { background: #0C0D10; color: #F0EFEA; font-family: Inter, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+::selection { color: #0C0D10; background: #D7B77B; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid #D7B77B; outline-offset: 5px; }
+.skip-link { position: fixed; top: 12px; left: 12px; z-index: 100; padding: 12px 20px; background: #D7B77B; color: #0C0D10; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+.inline-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.story-nav-sticky { position: sticky; top: 120px; }
+.reading-progress { position: fixed; top: 0; left: 0; height: 2px; background: #D7B77B; width: 100%; transform: scaleX(0); transform-origin: left; z-index: 60; }
+details > summary { min-height: 44px; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+.hero-title { font-size: clamp(42px, 5.9vw, 80px); letter-spacing: -.055em; }
+.pipeline-step { padding: 10px 0; text-align: left; transition: color .2s; }
+.pipeline-step[aria-pressed="true"], .pipeline-step:hover { color: #D7B77B; }
+.pipeline-explanation { min-height: 100px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #30343D; font-size: 14px; line-height: 1.7; color: #B4B6BE; }
+.chapter-nav { display: grid; gap: 4px; margin-top: 30px; }
+.chapter-nav a { min-height: 44px; padding: 12px 0 12px 12px; border-left: 1px solid #30343D; color: #969BA6; line-height: 1.6; transition: color .2s, border-color .2s; }
+.chapter-nav a[aria-current="location"], .chapter-nav a:hover { color: #D7B77B; border-color: #D7B77B; }
+#desktop-nav a[aria-current="location"] { color: #D7B77B; }
+.case-study { scroll-margin-top: 100px; transition: border-color .3s; }
+.case-study:hover, .case-study:target { border-color: #66604F; }
+.case-study p { font-size: 15px; line-height: 1.8; }
+.demo-link { transition: transform .25s, border-color .25s, background .25s; }
+.demo-link:hover { transform: translateY(-4px); background: #1C1F25; }
+main > section { scroll-margin-top: 24px; }
+#mobile-nav a { min-height: 44px; display: flex; align-items: center; }
+@media (max-width: 767px) {
+  .story-nav-sticky { position: static; }
+  .chapter-nav { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .case-study { padding: 24px; }
+  #contact { padding-block: 80px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
