@@ -35,6 +35,10 @@ try {
       await noOverflow(`${file} ${width}`);
       await page.screenshot({path:`test-results/${file.replace('.html','')}-${width}.png`,fullPage:true});
       if(file==='index.html' && width!==768) await page.screenshot({path:`test-results/portfolio-top-${width}.png`});
+      if(file==='index.html') {
+        const type=await page.evaluate(()=>({name:parseFloat(getComputedStyle(document.querySelector('#hero-name')).fontSize),role:parseFloat(getComputedStyle(document.querySelector('.hero-role')).fontSize),headings:[...document.querySelectorAll('h2,h3')].map(el=>parseFloat(getComputedStyle(el).fontSize))}));
+        assert.ok(type.name>type.role && type.headings.every(size=>size<type.role),`Name and role dominate typography at ${width}px`);
+      }
       if(width===1440) await audit(file);
     }
   }
@@ -42,8 +46,28 @@ try {
   await page.goto(base);await click('Open navigation');
   await page.locator('#mobile-nav').getByRole('link',{name:'Contact',exact:true}).click();
   assert.equal(await page.locator('#mobile-menu-btn').getAttribute('aria-expanded'),'false');
+  await click('Open navigation');await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#mobile-menu-btn').getAttribute('aria-expanded'),'false');
   await page.locator('[data-stage="1"]').click();
   assert.match(await page.locator('#pipeline-explanation').innerText(),/verification/);
+  for(const stage of ['0','1','2','3']) {
+    await page.locator(`[data-stage="${stage}"]`).click();
+    assert.equal(await page.locator('#neural-figure').getAttribute('data-active'),stage);
+    assert.equal(await page.locator('[data-stage][aria-pressed="true"]').count(),1);
+  }
+  assert.match(await page.locator('#pipeline-explanation').innerText(),/Teacher review/);
+  assert.equal(await page.locator('#motion-toggle').isDisabled(),true);
+  assert.equal(await page.locator('.network-pulse').first().evaluate(el=>getComputedStyle(el).animationName),'none');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.locator('#neural-figure').scrollIntoViewIfNeeded();
+  await click('Pause motion');
+  assert.equal(await page.locator('.network-pulse').first().evaluate(el=>getComputedStyle(el).animationPlayState),'paused');
+  await click('Resume motion');
+  assert.equal(await page.locator('.network-pulse').first().evaluate(el=>getComputedStyle(el).animationPlayState),'running');
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.locator('#lingocut').scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector('.chapter-nav a[href="#lingocut"]').getAttribute('aria-current')==='location');
+  checks.push('Oversized name/role, four neural stages, motion controls and scroll-linked storytelling');
   await page.locator('#quiz-platform summary').nth(1).click();
   assert.equal(await page.locator('#quiz-platform details').nth(1).getAttribute('open'),'');
   const pdf=await context.request.get(`${base}/output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf`);
