@@ -57,7 +57,7 @@ try {
  const fallback=await browser.newContext({viewport:{width:390,height:844}});
  await fallback.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(kind,...rest){return /^webgl/.test(kind)?null:original.call(this,kind,...rest);};});
  const plain=await fallback.newPage();await plain.goto(base);await plain.waitForFunction(()=>document.body.classList.contains('webgl-fallback'));
- assert.equal(await plain.locator('#hero-name').isVisible(),true);assert.equal(await plain.getByRole('link',{name:'Enter my work'}).isVisible(),true);assert.equal(await plain.locator('[data-explore]').isVisible(),false);await fallback.close();
+ assert.equal(await plain.locator('#hero-name').isVisible(),true);assert.equal(await plain.getByRole('link',{name:'View work experience'}).isVisible(),true);assert.equal(await plain.locator('[data-explore]').isVisible(),false);await fallback.close();
  checks.push('WebGL-unavailable fallback keeps the portfolio usable');
  assert.deepEqual(errors,[],'No runtime errors');await writeFile('test-results/spatial-report.json',JSON.stringify({checks,errors},null,2));console.log(`PASS: ${checks.length} 3D experience check groups.`);
 } finally {await browser.close();server.close();}

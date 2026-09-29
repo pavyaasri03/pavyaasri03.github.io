@@ -1674,3 +1674,78 @@ body.exploring {
 .skills-sculpture figcaption small {color:#9d92af;font-size:7px;letter-spacing:.1em;}
 @media(max-width:767px){.skills-sculpture{position:relative;top:auto;margin-top:32px;}.skills-orbit-stage{height:300px;}.skills-sculpture figcaption small{display:none;}}
 @media(min-width:768px) and (max-height:700px){.skills-sculpture{top:105px;}.skills-orbit-stage{height:230px;}}
+
+/* Product context and engineering evidence, alongside the existing 3D story. */
+.experience-anchor {scroll-margin-top:105px;}
+.experience-heading {display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end;}
+.experience-heading h2 {margin-bottom:26px;}
+.experience-heading .experience-position {font-size:18px;color:var(--text);margin-bottom:7px;}
+.experience-heading p {font-size:13px;color:var(--muted);line-height:1.9;}
+.experience-summary>p+p {margin-top:15px;}
+.experience-summary .text-link {font-size:12px;display:inline-block;margin-top:24px;color:var(--lime);}
+.work-snapshot {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:42px;}
+.work-snapshot>a {display:block;padding:28px;background:#101018;transition:background .2s;}
+.work-snapshot>a:hover {background:#191521;}
+.work-snapshot .mono {color:var(--lavender);font-size:8px;}
+.work-snapshot h3 {display:flex;justify-content:space-between;gap:14px;font-size:23px;line-height:1.25;letter-spacing:-.04em;margin:16px 0 12px;}
+.work-snapshot h3 span {color:var(--lime);}
+.work-snapshot p {font-size:13px;color:#c1bbc9;line-height:1.8;max-width:460px;}
+.snapshot-stack {display:block;font-size:10px;color:#a69bb5;line-height:1.8;margin-top:18px;}
+.experience-footnote {font-size:11px;color:var(--muted);margin-top:20px;max-width:750px;}
+.chapter-copy .case-product {font:500 23px/1.2 'Space Grotesk',sans-serif;color:var(--lime);letter-spacing:-.035em;margin:0 0 15px;}
+.case-contributions {margin-top:25px;}
+.case-contributions h3 {font:10px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--lavender);margin-bottom:12px;}
+.case-contributions ul {padding:0;list-style:none;margin:0;}
+.case-contributions li {font-size:12px;line-height:1.85;color:#b9b2c4;padding:9px 0 9px 14px;border-left:1px solid #514361;}
+.case-contributions li+li {margin-top:7px;}
+.case-contributions strong {font-weight:500;color:var(--text);}
+.case-depth {padding:8px 0 22px;}
+.case-depth h3 {font-size:14px;line-height:1.5;}
+.architecture-flow {list-style:none;counter-reset:architecture;margin:16px 0 25px;padding:0;}
+.architecture-flow li {counter-increment:architecture;font:10px/1.7 'IBM Plex Mono',monospace;padding:10px 12px;color:#d1c7de;border:1px solid #403647;background:#121018;}
+.architecture-flow li+li {margin-top:5px;}
+.architecture-flow li:before {content:'0' counter(architecture) ' / ';color:var(--lime);}
+.case-depth dl {margin:0;}
+.case-depth dl>div {border-top:1px solid var(--line);padding:17px 0 0;margin-top:17px;}
+.case-depth dt {font-size:12px;font-weight:500;color:var(--lavender);margin-bottom:7px;}
+.case-depth dd {font-size:12px;line-height:1.85;color:#b9b2c4;margin:0;}
+.lab-card strong {color:var(--text);font-weight:500;}
+.lab-card .demo-scope {display:block;color:#bfb3cc;margin-top:12px;}
+#project-dialog {max-height:calc(100dvh - 40px);overflow-y:auto;}
+@media(min-width:768px){.chapter-copy{max-width:560px;width:46%;}.project-chapter{min-height:125svh;}.artifact-label{bottom:12%;}}
+@media(max-width:767px){
+ .experience-heading{grid-template-columns:1fr;gap:24px;}
+ .experience-heading h2{font-size:30px;}
+ .experience-heading .experience-position{font-size:16px;}
+ .experience-heading p{font-size:12px;}
+ .work-snapshot{grid-template-columns:1fr;margin-top:30px;}
+ .work-snapshot>a{padding:24px 20px;}
+ .work-snapshot h3{font-size:22px;}
+ .work-snapshot p{font-size:12px;}
+ .chapter-copy .case-product{font-size:20px;}
+ .case-contributions li{font-size:12px;}
+ .chapter-copy h2{font-size:31px;}
+ .case-details summary{font-size:11px;gap:12px;}
+}
+
+/* Softer everyday typography; keep display type and the 3D presentation intact. */
+.mono {font-family:Inter,Arial,sans-serif;font-weight:500;letter-spacing:.015em;}
+.section-eyebrow,.work-snapshot .mono,.skills .mono,.current-role .mono,.education .mono {font-size:11px;letter-spacing:.015em;}
+.case-contributions h3 {font:500 12px/1.6 Inter,Arial,sans-serif;text-transform:none;letter-spacing:0;}
+.process-line li {font-family:Inter,Arial,sans-serif;font-size:11px;}
+.chapter-copy>.stack {font-family:Inter,Arial,sans-serif;font-size:10px;letter-spacing:.01em;line-height:1.9;}
+.architecture-flow li {font-family:Inter,Arial,sans-serif;font-size:12px;}
+.session-kicker {font-size:11px;letter-spacing:.02em;}
+.session-topline,.session-bottomline {letter-spacing:.01em;}
+.skills-sculpture figcaption>span {font-size:11px;letter-spacing:.02em;}
+.skills-sculpture figcaption small {font-size:9px;letter-spacing:.015em;}
+.site-footer {font-size:10px;}
+.boot-log,.core-coordinate,.scene-readout {font-family:'IBM Plex Mono',monospace;}
+@media(max-width:767px){
+ .section-eyebrow,.work-snapshot .mono,.skills .mono,.current-role .mono,.education .mono {font-size:10px;}
+ .chapter-copy .section-eyebrow {font-size:9px;}
+ .chapter-copy>.stack {font-size:9px;}
+ .process-line li {font-size:10px;}
+ .session-topline {font-size:7px;}
+ .session-bottomline {font-size:8px;}
+}

@@ -136,6 +136,9 @@ export function createPortfolioScene({ canvas, onProject, onFailure }) {
   canvas.addEventListener('pointerdown',down);canvas.addEventListener('pointerup',up);
   addEventListener('pointermove',pointerMove,{passive:true});addEventListener('pointerup',()=>{dragStart=null;});
   addEventListener('resize',resize);addEventListener('scroll',measureScroll,{passive:true});
+  // Expanded engineering notes change chapter height without a viewport resize.
+  const chapterResize=new ResizeObserver(measureScroll);
+  sceneSections.forEach(section=>chapterResize.observe(section));
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();cancelAnimationFrame(frame);frame=0;onFailure();});
   canvas.addEventListener('webglcontextrestored',()=>location.reload());
   function animate(now){

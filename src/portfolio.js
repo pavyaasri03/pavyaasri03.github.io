@@ -12,10 +12,10 @@ matchMedia('(min-width: 768px)').addEventListener('change',event=>{if(event.matc
 $('#current-year').textContent=new Date().getFullYear();
 
 const projects=[
- {name:'ArivuPro',kind:'LLM assessment platform',text:'A source-grounded assessment pipeline: chunked extraction, generation, verification, repair and teacher review. Validated on a 98-page source document.',href:'#quiz-platform'},
- {name:'LingoCut',kind:'Multilingual speech',text:'English lectures become colloquial Indian-language audio and video. Twelve code-switched dialects, editable translations, segment timing and checkpointed processing.',href:'#lingocut'},
- {name:'MarketInsight Pro',kind:'Marketing intelligence',text:'Collect signals from 8+ sources, classify relevance and sentiment, and prepare grounded reply drafts for human review.',href:'#marketinsight'},
- {name:'Smart Attendance',kind:'Full-stack workflows',text:'Faculty onboarding, timetable assignment and weekly scheduling for three roles, with overlap detection and responsive dashboards.',href:'#smart-attendance'}
+ {name:'ArivuPro',kind:'Work at ArivuPro / AI assessment',text:'I built document-to-quiz generation, teacher review and publishing, student exam workflows and grading. Next.js, FastAPI and Supabase connect to DeepSeek/Gemini. A 98-page source was used to validate the large-document flow; tenant-scoped queries are backed by isolation regression tests.',href:'#quiz-platform'},
+ {name:'LingoCut',kind:'Work at ArivuPro / Multilingual speech',text:'I built dubbing and editable voiceover workflows with React, Node.js, Gemini and FFmpeg. The system supports 12 code-switched language variants, segment timing and checkpoint/resume. I traced missing speech to a lossy parser and checked the fix through text-retention and TTS-to-transcription tests.',href:'#lingocut'},
+ {name:'MarketInsight Pro',kind:'Work at ArivuPro / Marketing intelligence',text:'I built social listening across 8+ sources, SEO dashboards, contextual classification and fact-grounded reply drafts for human review. Server-side API proxies keep provider keys out of the browser; per-source reporting exposes collection failures, and Firestore daily rollups support trend analysis.',href:'#marketinsight'},
+ {name:'Smart Attendance',kind:'Work at ArivuPro / Academic operations',text:'I built faculty self-onboarding and retroactive timetable assignment across the UI, API and database, then weekly scheduling for three roles with overlap detection. I also fixed a face-capture failure and consolidated responsive dashboards using Next.js, TypeScript and Supabase.',href:'#smart-attendance'}
 ];
 const explorer=$('#explorer'),dialog=$('#project-dialog'),canvas=$('#world-canvas');
 let scene=null,exploring=false,lastFocus=null,paused=false,welcomeActive=false,session=null;

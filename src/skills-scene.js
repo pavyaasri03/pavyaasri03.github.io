@@ -13,7 +13,7 @@ export function setupSkillsScene(){
   }
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;update();},{threshold:.05}).observe(panel);
   new MutationObserver(update).observe(document.body,{attributes:true,attributeFilter:['class']});
-  const captions={all:['CONNECTED CAPABILITIES','Models. Interfaces. Systems.'],ai:['LANGUAGE → INTELLIGENCE','Context becomes understanding.'],engineering:['LOGIC → EXPERIENCE','Connected from interface to database.'],delivery:['BUILD → VALIDATE → SHIP','Ideas become dependable systems.']};
+  const captions={all:['How my skills connect','From the model to the finished product.'],ai:['Working with language models','Giving a model the context it needs.'],engineering:['Building the application','Connecting the interface, API and database.'],delivery:['Getting it ready to ship','Testing, fixing and making it dependable.']};
   document.querySelectorAll('[data-skill-filter]').forEach(button=>button.addEventListener('click',()=>{
     const [title,copy]=captions[button.dataset.skillFilter];
     document.querySelector('#skills-scene-title').textContent=title;
