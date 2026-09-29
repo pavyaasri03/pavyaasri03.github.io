@@ -46,6 +46,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Test layouts, accessibility and demo workflows
         run: npm run test:browser
+      - name: Test the interactive 3D experience
+        run: npm run test:spatial
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

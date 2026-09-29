@@ -6,7 +6,7 @@ const files = [
   'index.html', 'index_updated.html', '404.html',
   'ai-evaluator-demo.html', 'biometric-voting-demo.html', 'lms-demo.html', 'complaint-system-demo.html',
   'portfolio.js', 'assets/portfolio.css', 'assets/demo.css', 'assets/demo.js', 'assets/demo-core.mjs',
-  'output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf'
+  'output/pdf/Pavyaa_Sri_Res.pdf'
 ];
 for (const file of files) {
   await mkdir(dirname(`dist/${file}`), { recursive: true });

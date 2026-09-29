@@ -1,8 +1,8 @@
-# Pavyaa Sri S — Engineering Stories
+# Pavyaa Sri S — Intelligence, engineered
 
-A dark, responsive portfolio for applied AI and full-stack engineering, with four interactive project demonstrations. The directly implemented neural-network direction uses an oversized typographic identity, an explorable SVG system map and a connected narrative. Built as static HTML, CSS and JavaScript for GitHub Pages.
+A spatial portfolio for applied AI and full-stack engineering. An original Three.js environment connects four project stories through five reflective sculptures, with an oversized typographic introduction and an explorable project constellation.
 
-## Run locally
+## Local preview
 
 Requires Node.js 22 or later.
 
@@ -12,26 +12,35 @@ npm run build
 npm start
 ```
 
-Open http://127.0.0.1:8000. The build compiles Tailwind into local CSS; the site does not load a Tailwind runtime or icon library. Google Fonts are optional and have system font fallbacks.
+Open http://127.0.0.1:8000. Set `PORT` to use another port. The server serves `dist/`; rebuild after editing source files.
 
-## Pages and behavior
+## Experience
 
-- `index.html`: oversized name and role, four-stage interactive neural visual, pausable signal animation, scroll-linked chapter navigation, four illustrated engineering stories, expandable technical details, resume and demo gallery.
-- `ai-evaluator-demo.html`: three sample keyword rubrics, editable responses, criterion breakdowns and JSON export. This is an explainable local simulation, not live AI grading or OCR.
-- `biometric-voting-demo.html`: fictional identity verification, candidate selection, review, one-vote protection, updated tally and receipt export. No biometric or government identity integration.
-- `lms-demo.html`: course search, lesson progress, assignment submission, faculty grading and an administrator overview using shared sample state.
-- `complaint-system-demo.html`: registration, exact-ID tracking, sequential admin status updates, history, filters and export.
-- `index_updated.html`: redirects the old portfolio address to the canonical page.
+- Scroll through source-grounded assessment, multilingual speech, marketing intelligence and role-aware scheduling. The 3D scene changes with the active story.
+- Drag the hero sculpture to rotate it. **Explore in 3D** opens the project constellation: drag to orbit, scroll/pinch to zoom, and select a sculpture or a labelled project button.
+- Explorer controls provide keyboard-accessible rotation, zoom and reset. Arrow keys rotate; `+`/`-` zoom. Escape returns to the story. Project dialogs also support Escape.
+- Pause motion at any time. Reduced-motion preferences remove ambient animation and smooth transitions. Rendering stops in a background tab. WebGL failure leaves a CSS illustration and the complete readable portfolio.
+- All sculptures are procedural geometry. No external models, textures, AI API, analytics or sign-in are required. The shapes illustrate the stories; they are not live neural-network traces.
+- Google Fonts are optional, with system fallbacks. Three.js is bundled locally, so the 3D experience does not depend on a CDN.
 
-Demo data stays in memory and resets on reload or explicit reset. Attachment selection records only a file name; file contents are never read or uploaded. The public examples are distinct from the production projects described in the case studies. No API keys, analytics, backend or sign-in are required.
+## Existing demos
 
-## Editing
+- `ai-evaluator-demo.html`: three keyword rubrics, editable responses, criterion breakdowns and JSON export. A local simulation, not live AI grading or OCR.
+- `biometric-voting-demo.html`: fictional verification, ballot review, one-vote protection, tally and receipt. No biometric or government-identity integration.
+- `lms-demo.html`: course search, lesson progress, submission, faculty grading and shared administrative state.
+- `complaint-system-demo.html`: registration, exact-ID tracking, sequential status updates, history, filters and export.
 
-- Portfolio markup: `index.html`; behavior: `portfolio.js`; styling: `styles/portfolio.css` and `tailwind.config.cjs`.
-- Demo shells: the four `*-demo.html` files. Shared styling: `assets/demo.css`; interaction flows: `assets/demo.js`; deterministic state/rubric logic: `assets/demo-core.mjs`.
-- Current resume: `output/pdf/Pavyaa_Sri_AI_Engineer_Resume.pdf`. `build_resume.py` regenerates it using ReportLab. The existing root DOCX is retained as a historical source; the site links to the current PDF.
+Sample data resets on reload or explicit reset. Attachments record only the selected filename; file contents are never read or uploaded. These examples are separate from the work products described in the portfolio.
 
-After editing portfolio classes or styles, run `npm run build`. Commit the generated `assets/portfolio.css` with the source changes.
+## Source files
+
+- `index.html`: semantic portfolio content, explorer controls and project dialog.
+- `src/portfolio.js`: navigation, explorer state, focus management, project content and motion controls.
+- `src/scene.js`: Three.js geometry, environment lighting, camera, picking, animation and scroll composition.
+- `styles/portfolio.css`: responsive layout, visual tokens and CSS motion.
+- `scripts/bundle.mjs`: esbuild output to `portfolio.js`. Do not edit that generated bundle manually.
+- `assets/portfolio.css`: generated CSS. `assets/demo.css`, `assets/demo.js` and `assets/demo-core.mjs` support the standalone demos.
+- `output/pdf/Pavyaa_Sri_Res.pdf`: current downloadable resume. `build_resume.py` regenerates it; the historical root DOCX is not published.
 
 ## Verification
 
@@ -40,14 +49,15 @@ npm test
 npm run build
 npx playwright install chromium
 npm run test:browser
+npm run test:spatial
 ```
 
-On Windows the browser tests use installed Google Chrome; on Linux they use Playwright Chromium. Tests cover desktop/tablet/mobile layouts, horizontal overflow, WCAG A/AA checks, the resume, no-JavaScript portfolio navigation, and complete demo workflows. Screenshots and reports are written to ignored `test-results/`.
+Windows uses installed Google Chrome; Linux uses Playwright Chromium. Headless checks enable software WebGL. Tests cover layouts, accessibility, links, no-JavaScript reading, demo workflows, real 3D rendering, pause/resume, drag, scroll stages, explorer controls, mesh picking, dialogs and WebGL failure. Screenshots and reports are written to ignored `test-results/`.
 
-## Deployment
+## Publishing
 
-Pushes to `main` run unit and browser checks, build the public site and deploy `dist/` to GitHub Pages. `scripts/build.mjs` uses an explicit public-file allowlist. Source documents, the offer letter, local tools, tests and design artifacts are not deployed. The `docs/` directory is ignored by Git.
+The existing GitHub Pages workflow builds and checks pushes to `main`, then deploys `dist/`. Building locally does not publish anything. `scripts/build.mjs` explicitly selects public files; private documents, source notes, local tools and design artifacts are excluded.
 
-## Design references
+## Visual research
 
-Research informed the typography and explanatory approach: [Aristide Benoist typography reference](https://www.opendesign.cc/en/sites/aristide) and [Distill Circuits](https://distill.pub/2020/circuits/). All portfolio diagrams are original illustrations, not live model traces. The network respects reduced motion and stops animating offscreen.
+Pinterest references included [animated 3D portfolios](https://in.pinterest.com/pin/create-a-stunning-3d-animated-portfolio-website-with-nextjs-threejs-gsap-and-prismic--597712181828138943/), [reflective chrome spheres](https://in.pinterest.com/pin/crystal-sphere-chrome-ball-design--3025924740936969/) and [3D website compositions](https://in.pinterest.com/pin/950400327635001563/). They informed material and motion direction; all scene geometry and composition here were authored for this portfolio. Three.js is MIT licensed; its notice is retained in the generated bundle.
