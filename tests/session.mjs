@@ -22,10 +22,11 @@ try {
  const f=await page.locator('#welcome-canvas').getAttribute('data-frames');await page.waitForTimeout(250);assert.equal(await page.locator('#welcome-canvas').getAttribute('data-frames'),f);
  await page.locator('#welcome-motion').click();await page.waitForFunction(n=>Number(document.querySelector('#welcome-canvas').dataset.frames)>Number(n),f);
  await page.locator('#enter-portfolio').click();assert.equal(await page.locator('#welcome-dialog').isVisible(),false);
- assert.equal(await page.evaluate(()=>document.activeElement.id),'hero-name');
+ // Native dialog close events are queued; wait for the focus-restoration handler.
+ await page.waitForFunction(()=>document.activeElement.id==='hero-name');
  await page.reload();assert.equal(await page.locator('#welcome-dialog').isVisible(),false);
  await page.locator('[data-replay-welcome]').click();await page.keyboard.press('Escape');
- assert.equal(await page.evaluate(()=>document.activeElement.hasAttribute('data-replay-welcome')),true);
+ await page.waitForFunction(()=>document.activeElement.hasAttribute('data-replay-welcome'));
  checks.push('First visit, real animated core, pause/resume, dismissal persistence, replay, Escape and focus restoration');
  await page.emulateMedia({reducedMotion:'reduce'});
  for(const width of [320,390,768,1440]){
@@ -48,13 +49,18 @@ try {
  assert.deepEqual(await readFile(await download.path()),await readFile('output/pdf/Pavyaa_Sri_Res.pdf'));
  const pdf=await readFile('output/pdf/Pavyaa_Sri_Res.pdf');assert.equal(pdf.length,300565,'Original supplied PDF, not generated draft');
  checks.push('Resume filename and actual downloaded bytes; all technical skills and working filters');
- await page.waitForFunction(()=>performance.now()>16000);
- await page.dispatchEvent('html','mouseleave',{clientY:0});
- assert.equal(await page.locator('#departure-prompt').isVisible(),true);
- await audit('Departure invitation accessibility');
- await page.locator('#dismiss-departure').click();
- await page.dispatchEvent('html','mouseleave',{clientY:0});
- assert.equal(await page.locator('#departure-prompt').isVisible(),false);
+ // Isolate exit intent from pointer exits caused by downloads and earlier dialogs.
+ const departure=await context.newPage();await departure.goto(base);
+ await departure.waitForFunction(()=>document.body.classList.contains('enhanced'));
+ await departure.evaluate(()=>scrollTo(0,innerHeight*2));
+ await departure.waitForTimeout(15500);
+ await departure.dispatchEvent('html','mouseleave',{clientY:0});
+ await departure.locator('#departure-prompt').waitFor({state:'visible'});
+ const departureAudit=await new AxeBuilder({page:departure}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(departureAudit.violations.map(v=>v.id),[]);
+ await departure.locator('#dismiss-departure').click();
+ await departure.dispatchEvent('html','mouseleave',{clientY:0});
+ assert.equal(await departure.locator('#departure-prompt').isVisible(),false);
+ await departure.close();
  checks.push('Departure invitation requires engagement and stays dismissed');
  await page.locator('.session-links [data-feedback]').click();await audit('Feedback accessibility');
  await page.screenshot({path:'test-results/feedback-desktop.png'});
